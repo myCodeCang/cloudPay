@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>转账</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/script/layer/css/layer-mobile.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+    	<style type="text/css">
+    		.layui-m-layerchild h3{height:50px;line-height: 50px;background:#F5F5F5;font-size:15px;}
+			.layui-m-layercont{padding: 20px 40px;}
+			.layui-m-layercont input{border:1px solid #ddd;padding-left:5px;height:40px;}
+			.layui-m-layercont input::-webkit-input-placeholder{font-size:0.7rem;color:#999999;}
+    	</style>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			 <a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">转账</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content zhuan">
+			<img src="../image/touxiang.png"/>
+			<span>向<mark>个人账户</mark>&nbsp;<span id="userName">某某</span>&nbsp;转账</span>
+			<h3><span>￥</span><input onKeyUp="amount(this)"  onBlur="overFormat(this)" type="text" name="" id="money" placeholder="" /></h3>
+		</div>
+		<div class="aui-content zhuanzhang-but" onclick="tan()">
+			<div class="aui-btn aui-btn-block">转 账</div>
+		</div>
+	</body>
+
+
+	<script type="text/javascript">
+			var saveFlag = false;
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+			var userName = null;
+			var mobile = null;
+			var money = null;
+			var message = null;
+			var isShop = null;
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','layer'], initpage);
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+
+				userName = layui.qyForm.GetQueryString("userName");
+				mobile = layui.qyForm.GetQueryString("mobile");
+				money = layui.qyForm.GetQueryString("money");
+				isShop = layui.qyForm.GetQueryString("isShop");
+				$("#userName").html(userName);
+				if(money == 0){
+					$("#money").attr("placeholder","请输入转账金额");
+				}else{
+					$("#money").val(money);
+					$("#money").attr("readonly","readonly");
+				}
+
+				//getUserInfo();
+			}
+
+			function getUserInfo(){
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+					$("#userMoney").html(data.user.money);
+					
+				});
+			}
+
+			function amount(th){
+		        var regStrs = [
+		            ['^0(\\d+)$', '$1'], //禁止录入整数部分两位以上，但首位为0
+		            ['[^\\d\\.]+$', ''], //禁止录入任何非数字和点
+		            ['\\.(\\d?)\\.+', '.$1'], //禁止录入两个以上的点
+		            ['^(\\d+\\.\\d{2}).+', '$1'] //禁止录入小数点后两位以上
+		        ];
+		        for(var i=0; i<regStrs.length; i++){
+		            var reg = new RegExp(regStrs[i][0]);
+		            th.value = th.value.replace(reg, regStrs[i][1]);
+		        }
+		    }
+
+		    function overFormat(th){
+			        var v = th.value;
+			        if(v === ''){
+			            v = '0.00';
+			        }else if(v === '0'){
+			            v = '0.00';
+			        }else if(v === '0.'){
+			            v = '0.00';
+			        }else if(/^0+\d+\.?\d*.*$/.test(v)){
+			            v = v.replace(/^0+(\d+\.?\d*).*$/, '$1');
+			            v = inp.getRightPriceFormat(v).val;
+			        }else if(/^0\.\d$/.test(v)){
+			            v = v + '0';
+			        }else if(!/^\d+\.\d{2}$/.test(v)){
+			            if(/^\d+\.\d{2}.+/.test(v)){
+			                v = v.replace(/^(\d+\.\d{2}).*$/, '$1');
+			            }else if(/^\d+$/.test(v)){
+			                v = v + '.00';
+			            }else if(/^\d+\.$/.test(v)){
+			                v = v + '00';
+			            }else if(/^\d+\.\d$/.test(v)){
+			                v = v + '0';
+			            }else if(/^[^\d]+\d+\.?\d*$/.test(v)){
+			                v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '$1');
+			            }else if(/\d+/.test(v)){
+			                v = v.replace(/^[^\d]*(\d+\.?\d*).*$/, '$1');
+			                ty = false;
+			            }else if(/^0+\d+\.?\d*$/.test(v)){
+			                v = v.replace(/^0+(\d+\.?\d*)$/, '$1');
+			                ty = false;
+			            }else{
+			                v = '0.00';
+			            }
+			        }
+			        th.value = v;
+			    }
+			// function selectUser(){
+			// 	var mobile = $("#mobile").val();
+			// 	if(!mobile){
+			// 		layui.qyWin.toast("请先输入对方账户信息");
+			// 		return;
+			// 	}
+			// 	layui.qyForm.qyajax("/f/app/userinfo/selectUserByMobile",{mobile:mobile},function(data){
+			// 		layui.qyWin.toast(data.info);	
+			// 	});
+			// }
+			function tan(){
+			layui.layer.open({
+				    title: [
+				      '请输入支付密码'
+				    ]
+				    ,content: '<div class="odiv-input"><input id="password" type="password"  placeholder="请输入支付密码"/></div>',
+				    btn: ['确认','取消'],
+				    yes: function(index, layero){
+			            save();
+			          },
+				  });
+			}
+			function save(){
+
+				if(isShop == 1){
+					message = "当面付消费";
+				}
+				if(isShop == 0){
+					message = "当面付转账";
+				}
+				if(money == 0){
+					money = $("#money").val();
+				}
+				var password =  $("#password").val();	
+				if(!mobile){
+					layui.qyWin.toast("请先输入对方账户信息!");
+					return ;
+				}
+				if( parseInt(money)!= money || money <= 0){
+					layui.qyWin.toast("金额输入错误,请输入正整数!");
+					return ;
+				}
+				// if(!message){
+				// 	layui.qyWin.toast("请输入转账说明");
+				// 	return ;
+				// }
+				if(!password){
+					layui.qyWin.toast("请输入支付密码!");
+					return ;
+				}
+				if(saveFlag){
+					return;
+				}
+
+				var data = {
+					money : money,
+					message : message,
+					mobile : mobile,
+					password : password
+				}
+				 saveFlag = true;
+		     			 		
+					layui.qyForm.qyajax("/f/app/userinfo/transferAccounts",data,function(res){
+						layui.qyWin.toast(res.info);
+						setTimeout("javascript:history.go(-1)",1000);
+					},function(res){
+						saveFlag = false;
+					});
+						
+				}
+			// 	 });		
+			// }
+
+			
+	</script>
+</html>

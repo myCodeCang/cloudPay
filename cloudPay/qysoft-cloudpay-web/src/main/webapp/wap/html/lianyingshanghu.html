@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>联营商户</title>
+		<link rel="stylesheet" href="../css/module/menudown/menudown.css" />
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			 <a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">商户列表</div>
+			<!-- <div class="aui-pull-right">附近商家</div> -->
+		</header>
+		<div class="height-one"></div>
+		<style type="text/css">
+			.lianying [class*=aui-col-]{padding:0;border-right:1px solid #DDDDDD;padding-left:0.75rem;position: relative;}
+			.lianying [class*=aui-col-]:last-child{border-right:none;}
+			.lianying [class*=aui-col-] i{position: absolute;width:1rem;height:1rem;right:0.5rem;top:0.5rem;font-size:0.7rem;}
+		</style>
+		<!-- <div class="aui-content lianying">
+			<div class="aui-grid">
+				<div class="aui-row">
+					<div class="aui-col-xs-4">
+						<select>
+							<option>选择省</option>
+							<option></option>
+							<option></option>
+						</select>
+						<i class="aui-iconfont aui-icon-down"></i>
+					</div>
+					<div class="aui-col-xs-4">
+						<select>
+							<option>选择市</option>
+							<option></option>
+							<option></option>
+						</select>
+						<i class="aui-iconfont aui-icon-down"></i>
+					</div>
+					<div class="aui-col-xs-4">
+						<select>
+							<option>选择区</option>
+							<option></option>
+							<option></option>
+						</select>
+						<i class="aui-iconfont aui-icon-down"></i>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<style type="text/css">
+			.dilixinxi{background:#FFFFFF;padding-left: 0.75rem;padding-bottom:0.5rem;}
+			.dilixinxi>span{display: block;height:2.25rem;line-height: 2.25rem;}
+			.dilixinxi .aui-list-item{background-image: none;padding: 0;}
+			.dilixinxi .aui-list-item-inner{font-size:0.75rem;}
+			.dilixinxi p{font-size:0.75rem;}
+		</style>
+		<div id="temp-user-shop">
+			<!-- <div class="aui-content dilixinxi aui-margin-t-10">
+				<span>12331</span>
+				 <ul class="aui-list">
+			        <li class="aui-list-item">
+			            <div class="aui-list-item-label-icon">
+			                <i class="aui-iconfont aui-icon-location"></i>
+			            </div>
+			            <div class="aui-list-item-inner">
+			                这是一个列表项
+			            </div>
+			        </li>
+			    </ul>
+			    <p>服务内容:&nbsp;啦啦啦啦啦啦啦啦啦</p>
+			</div> -->
+		</div>
+	</body>
+	<script type="text/html" id="tpl-user-shop">
+
+		{{each userShops.list}}
+		<div class="aui-row">
+			<a href="shanghu_detail.html?id={{$value.id}}">
+			<div class="aui-content dilixinxi aui-margin-t-10">
+				<span>{{$value.shopName}}</span>
+				 <ul class="aui-list">
+			        <li class="aui-list-item">
+			            <div class="aui-list-item-label-icon">
+			                <i class="aui-iconfont aui-icon-location"></i>
+			            </div>
+			            <div class="aui-list-item-inner">
+			                {{$value.shopAddress}}
+			            </div>
+			        </li>
+			    </ul>
+			    <p>服务内容:&nbsp;{{$value.remarks}}</p>
+			</div></a>
+			</div>
+		{{/each}}
+		
+	</script>
+	
+	
+		<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+			
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','menudown'], initpage);
+
+
+			
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+
+				var classId = layui.qyForm.GetQueryString("classId");
+
+				
+				//loadSeachData();
+				
+				qyForm.pageajax(loadData,{
+					"pageNo":"1",
+					"pageSize":"10",
+					"classId" : classId
+				});
+			}
+			
+			
+			 //加载查询条件
+			// function loadSeachData(){
+			
+			// 	layui.qyForm.qyajax("/f/app/transBuy/groupList",{},function(data){
+			
+						
+			// 			var html = template('tpl_search_num', data);
+			// 			$("#temp_search_num").append(html);
+			
+			// 			var menudown = layui.menudown;
+			// 			menudown.init(1,menuDownSelect);
+			
+			// 	});
+			
+				
+			// } 
+
+			
+			function loadData(param,callback){
+
+				layui.qyForm.qyajax("/f/app/shopManage/findUserShopByClassifyId",param,function(data){
+
+					 	var pageData = data.userShops;
+						var html = template('tpl-user-shop', data);
+						$("#temp-user-shop").append(html);
+						//分页回调结束处理方法, 传入的参数必须正确
+					if(callback){
+						callback(pageData);
+					}
+
+				});
+			}
+
+
+			// //menu选择回调事件
+			// function menuDownSelect(text,val){
+			// 	var param = val.split("_");
+
+			// 	if(param[0] == "groupId"){
+			// 		$("#temp-trans-order").html("");
+
+			// 			groupId = param[1];
+
+			// 	}
+				
+			// 	if(param[0] == "time"){
+			// 		$("#temp-trans-order").html("");
+
+			// 			dateParm = param[1];
+	
+			// 	}
+				
+			// 	layui.qyForm.pageajax(loadData,{
+			// 			"pageNo":"1",
+			// 			"pageSize":"10",
+			// 			"dateParm" : dateParm,
+			// 			"groupId" : groupId
+			// 		});
+				
+			// }
+	</script>
+</html>

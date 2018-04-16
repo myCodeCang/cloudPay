@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商城</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #content_frame{height:100%}
+    </style>
+</head>
+<body>
+
+<iframe id='content_frame' width="100%" height="100%" frameborder=0 marginheight=0 marginwidth=0 scrolling=no></iframe>
+
+</body>
+<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+<script type="text/javascript">
+    //框架初始化
+    qySoftInit("../../static/qyScript/web/");
+    layui.use(['qyWin','qyForm'], initpage);
+
+    function initpage(){
+        setIframeHeight(document.getElementById("content_frame"));
+
+        $('#content_frame').attr('src',"http://192.168.0.188:199/app/index.php?i=27&c=entry&m=ewei_shopv2&do=mobile&isback=1");
+
+    }
+
+    function setIframeHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            }
+        }
+    }
+</script>
+</html>

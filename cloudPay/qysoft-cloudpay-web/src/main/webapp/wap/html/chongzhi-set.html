@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>充值历史查询</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body class="bg-fff">
+		<header class="aui-bar aui-bar-nav home" id="header">
+		    <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title">充值历史查询</div>
+		    <!-- <a class="aui-pull-right aui-btn">
+		        <span class="aui-iconfont aui-icon-home"></span>
+		    </a> -->
+		</header>
+		<div class="hei-len"></div>
+		<div class="aui-content asset">
+			<ul class="aui-list aui-media-list" id="temp-chongzhi">
+		      <!--   <li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <div class="aui-list-item-title">支付成功</div>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		            			订单号：20170301-9961-14233919964
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    	2017-04-12 16:31:55
+		                    </div>
+		                    <span class="asset-jia">270.00</span>
+		                </div>
+		            </div>
+		        </li> -->
+		    </ul>
+		    <div class="jiazai-box aui-content"></div>
+		</div>    
+	</body>
+	<script id="tpl-chongzhi" type="text/html">
+		{{each userChargeLogList.list}}
+		    <li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <div class="aui-list-item-title">
+		                        {{$value.status == 1 ? "充值成功" : "充值失败"}}
+		                        --{{$value.changeType == 1 ? "红包":$value.changeType == 2 ? "我的钱包":"蓝包"}}
+		                        </div>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		            			订单号： {{$value.recordcode}}
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    	{{$value.createDate}}
+		                    </div>
+		                    <span class="asset-jia">{{$value.changeMoney}}</span>
+		                </div>
+		            </div>
+		        </li>
+		{{/each}}
+		
+	</script>
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+
+				qyForm.pageajax(loadData,{
+					"pageNo":"1",
+					"pageSize":"10"
+				});
+
+			}
+
+			function loadData(param,callback){
+			layui.qyForm.qyajax("/f/app/userinfo/userChargeLog",param,function(data){						
+					var pageData = data.userChargeLogList;
+					var html = template('tpl-chongzhi', data);
+					$("#temp-chongzhi").append(html);
+					//分页回调结束处理方法, 传入的参数必须正确
+					if(callback){
+						callback(pageData);
+					}
+				
+				});
+			}
+	</script>
+</html>

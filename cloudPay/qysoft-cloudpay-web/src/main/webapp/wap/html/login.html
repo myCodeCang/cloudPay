@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>登录</title>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+
+	</head>
+	<body class="bg-fff"> 
+		<div class="aui-content login">
+			<div class="login_logo">
+				<img src="../image/yunzhifu-logo.png">
+			</div>
+			<ul class="aui-list aui-form-list log_lst">
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label-icon">
+							<i class="aui-iconfont aui-icon-mobile"></i>
+						</div>
+						<div class="aui-list-item-input">
+							<input type="text" placeholder="请输入手机号"  id="username" name="username" value="">
+						</div>
+					</div>
+				</li>
+				<li class="aui-list-item">
+					<div class="aui-list-item-inner">
+						<div class="aui-list-item-label-icon">
+							<i class="aui-iconfont aui-icon-lock"></i>
+						</div>
+						<div class="aui-list-item-input">
+							<input type="password" placeholder="请输入密码" id="password" name="password" value="">
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div>
+				<div class="aui-content login-but" onclick="login()">
+					<div class="aui-btn aui-btn-block">登 录</div>
+				</div>
+				<div class="aui-content login-chec">
+					<ul class="aui-list">
+						<li class="aui-list-item">
+							<div class="aui-list-item-inner">
+								<label><input class="aui-checkbox" checked="" type="checkbox" id="rempwd"> 记住密码</label>
+								<div class="aui-pull-right"><a href="gai-mima.html">忘记密码</a></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+		</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+			var loginFlag = false;
+
+			//框架初始化
+            qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+//			apiready = function(){
+				  layui.use(['qyWin','qyForm','qyShop'], initpage);
+//			};
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+				var username = layui.qyWin.getPrefs("username");
+				var password = layui.qyWin.getPrefs("password");
+				var rempwd = layui.qyWin.getPrefs("rempwd");
+				if(rempwd==1){
+					$("#username").val(username);
+					$("#password").val(password);
+					$("#rempwd").attr('checked','checked');
+				}
+				
+
+			}
+            function login(){
+
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                if(!username){
+                    layui.qyWin.toast("请输入用户名!");
+                    return ;
+                }
+                if(!password){
+                    layui.qyWin.toast("请输入密码!");
+                    return ;
+                }
+
+                if(loginFlag){
+                    return;
+                }
+
+                loginFlag = true;
+
+                var data = {
+                    username : username,
+                    password : password,
+                    mobileLogin:"true",
+                    userType:"website",
+                    login:"true"
+
+                }
+
+                // layui.qyShop.shopLogin("6",username,password,function(ret){
+                // 	if(ret){
+                // 		layui.qyWin.toast("登录成功!");
+
+                // 		//设定偏好数据
+                // 		if($("#rempwd").get(0).checked){
+                // 			layui.qyWin.setPrefs("username",username);
+                // 			layui.qyWin.setPrefs("password",password);
+                // 			layui.qyWin.setPrefs("rempwd",1);
+                // 		}else
+                // 		{
+                // 			layui.qyWin.setPrefs("username","");
+                // 			layui.qyWin.setPrefs("password","");
+                // 			layui.qyWin.setPrefs("rempwd","");
+                // 		}
+                // 		layui.qyShop.openShop("6");
+
+                // 		setTimeout(function(){
+                // 			layui.qyShop.shopLogin("7",username,	password);
+                // 			layui.qyShop.shopLogin("9",username,password);
+                // 		},500);
+
+                // 	}
+                // 	else{
+                // 		layui.qyWin.toast("用户名或密码错误!");
+                // 	}
+
+                // });
+
+                layui.qyForm.qyajax("/f/login",data,function(){
+
+                    //layui.qyWin.toast("登录成功!");
+
+//                    layui.qyShop.shopLogin("27",username,password,function(ret){
+//                        if(ret){
+                            layui.qyWin.toast("登录成功!");
+                            //设定偏好数据
+                            if($("#rempwd").get(0).checked){
+                                layui.qyWin.setPrefs("username",username,365);
+                                layui.qyWin.setPrefs("password",password,365);
+                                layui.qyWin.setPrefs("rempwd",1,365);
+                            }else
+                            {
+                                layui.qyWin.setPrefs("username","");
+                                layui.qyWin.setPrefs("password","");
+                                layui.qyWin.setPrefs("rempwd","");
+                            }
+                            setTimeout(function(){
+                                window.location.href="index.shtml";
+                            },1000);
+
+                            // setTimeout(function(){
+                            // 	layui.qyShop.openShop("10");
+                            // },1000);
+
+
+                            // setTimeout(function(){
+
+                            // 	layui.qyShop.shopLogin("8",username,password);
+                            // 	layui.qyShop.shopLogin("9",username,password);
+                            // },1500);
+
+//                        }
+//                        else{
+//                            layui.qyWin.toast("用户名或密码错误!!!");
+//                            loginFlag = false;
+//                        }
+
+                    });
+
+                    //openMainWin();
+
+//                },function(){
+//                    loginFlag = false;
+//                });
+
+
+            }
+
+
+	</script>
+
+</html>

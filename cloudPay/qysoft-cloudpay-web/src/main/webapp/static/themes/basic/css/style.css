@@ -1,0 +1,28 @@
+/* 首页 */
+.jiben_basic>div{margin-top:15px;}
+.jiben_basic>div>span:first-child{width:50%;display:inline-block;text-align:right;font-size:16px;padding-right:0.75rem;}
+.jiben_basic>div>span:last-child{width:50%;display:inline-block;text-align:left;font-size:16px;padding-left:0.75rem;color:#cd2525;}
+/* 资料修改 */
+.title_h4{height:40px;font-size:20px !important;display: inline-block;padding:3px 5px;border-bottom:2px solid #666;color:#666;font-weight:bold;}
+.message_group .form-group{margin-bottom:20px;line-height:40px;}
+.message_group .form-group .col-sm-3{line-height:30px;color:#666;padding-top: 5px;}
+.message_group .form-group .control-label{color:#666;font-weight:bold;}
+.message_group .form-group .form-control{height:40px;}
+.message_group .form-group textarea{height:120px !important;}
+.message_group .form-group .btn{padding: 8px 25px;font-size:18px;font-weight: blod;}
+.message_group .form-group p{line-height:20px;color:#EF5B44;}
+/* 修改密码 */
+.title_h3_one{background-color: #EFB358;margin-bottom:20px;}
+.title_h3_one h3{color:#fff;}
+.title_h3_two{background-color: #ee8878;margin-bottom:20px;}
+.title_h3_two h3{color:#fff;}
+
+/* 会员注册 */
+.registration-hui .example-grid .example-col{background:none;font-size:16px;}
+.registration-hui .example-grid .example-col span{color:#ee8878;}
+.table-bordered > thead:first-child > tr:first-child > th{text-align: center;}
+table.table-bordered tbody td{text-align: center;}
+
+/* 会员网络图 */
+.tubiao{width:100%;background-color:#fff;height:700px;margin-top:20px;margin-left:0;}
+.tubiao-one{border:3px dotted #333;overflow: hidden;height:700px;border-radius:10px;}

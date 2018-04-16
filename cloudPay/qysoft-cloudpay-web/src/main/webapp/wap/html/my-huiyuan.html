@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>已分享人员名单</title>
+		<link rel="stylesheet" href="../css/module/menudown/menudown.css" />
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body class="bg-fff">
+		<header class="aui-bar aui-bar-nav home">
+		    <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title" id="title">已分享人员名单</div>
+		</header>
+		<!-- <div class="xialaye">
+			<dl class="topmenu">
+				<dt>
+					<div class="selectlist">
+							<div class="select_textdiv">
+								<input type="hidden" value=""/>
+								<p class="s_text">我的推荐</p>
+							</div>
+							<div class="select_textul">
+								<ul class="select_first_ul">
+									<li><p value="status_">全部</p></li>
+									<li><p value="status_1">已激活</p></li>
+									<li><p value="status_0">未激活</p></li>
+									<li><p value="status_2">临时用户</p></li>
+								</ul>
+								<div class="mask"></div>
+							</div>
+						</div>	
+				</dt>	
+			</dl>
+		</div> -->
+		<div class="height-one"></div>
+		<!-- <div class="aui-content miaobao">
+			<div>
+				<a href="##">用户一</a>&nbsp;/&nbsp;<a href="##">用户一</a>&nbsp;/&nbsp;<a href="##">用户一</a>
+			</div>
+		</div> -->
+		<div id="temp_tuijianList">
+			<!-- <div class="aui-content yishu">
+				<h3>会员:<span>某某某</span></h3>
+		        <ul class="aui-list">
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">等级</div>
+		                    <div class="aui-list-item-right">黄金</div>
+		                </div>
+		            </li>
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">推荐时间</div>
+		                    <div class="aui-list-item-right">2017-2-20</div>
+		                </div>
+		            </li>
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">手机号</div>
+		                    <div class="aui-list-item-right">18111112222</div>
+		                </div>
+		            </li>
+		        </ul>
+		        <div class="aui-grid">
+		        	<div class="aui-row">
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:none;" disabled=""></div>
+		        		</div>
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:#F85255;">下架</div>
+		        		</div>
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:#F85255;">激活</div>
+		        		</div>
+		        	</div>
+		        </div>
+			</div> -->
+		</div>
+	</body>
+	<script id="tpl_tuijianList" type="text/html">
+		
+		{{each fenXiangNum.list}}  
+				<div class="aui-content yishu">
+				<h3>会员: <span>{{$value.userName}}</span></h3>
+		        <ul class="aui-list">
+		        	<li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">真实姓名</div>
+		                    <div class="aui-list-item-right">{{$value.trueName}}</div>
+		                </div>
+		            </li>
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">等级</div>
+		                    <div class="aui-list-item-right">{{$value.userLevel.levelName}}</div>
+		                </div>
+		            </li>
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">注册时间</div>
+		                    <div class="aui-list-item-right">{{$value.createDate | dateFormat}}</div>
+		                </div>
+		            </li>
+		            <li class="aui-list-item">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-title">手机号</div>
+		                    <div class="aui-list-item-right">{{$value.mobile | subPhoneFormat}}</div>
+		                </div>
+		            </li>
+		        </ul>
+		        <!-- <div class="aui-grid">
+		        	<div class="aui-row">
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:none;" disabled=""></div>
+		        		</div>
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:none;" disabled=""></div>
+		        		</div>
+		        		{{if $value.userStatus < 1 }}
+		        		<div class="aui-col-xs-4">
+		        			<div class="aui-btn aui-btn-block" style="background:#F85255;" onclick="active('{{$value.userName}}')">激活</div>
+		        		</div>
+		        		{{/if}}
+		        	</div>
+		        </div> -->
+			</div>
+		{{/each}}
+		
+	</script>
+		
+<!-- 	<script type="text/javascript" src="../script/jquery.min.js" ></script>
+	<script src="../script/menudown.js" type="text/javascript" charset="utf-8"></script> -->
+	<script type="text/javascript">
+		var userLevelId= "";
+		var isShop = "";
+		//框架初始化
+		qySoftInit("../../static/qyScript/web/");
+		//apicloud 准备完成
+
+			  layui.use(['qyWin','qyForm','template','menudown','layer'], initpage);
+
+
+		
+		function initpage(){
+			var qyWin  = layui.qyWin;
+			var qyForm = layui.qyForm;
+
+			userLevelId = layui.qyForm.GetQueryString("userLevelId");
+			isShop = layui.qyForm.GetQueryString("isShop");
+			// var menudown = layui.menudown;
+			// menudown.init(1,menuDownSelect);
+
+			if(userLevelId == "1"){
+				$("#title").html("普通会员");
+			}
+			if(userLevelId == "2"){
+				$("#title").html("正式会员");
+			}
+			if(userLevelId == "3"){
+				$("#title").html("VIP会员");
+			}
+			if(isShop == "1"){
+				$("#title").html("联营商家");
+			}
+
+			qyForm.pageajax(loadData,{
+				"pageNo":"1",
+				"pageSize":"10",
+				"userLevelId" : userLevelId,
+				"isShop" : isShop
+			});
+		}
+
+
+		function loadData(param,callback){
+
+			layui.qyForm.qyajax("/f/app/userinfo/userManager",param,function(data){
+		
+					var pageData = data.fenXiangNum;
+					var html = template('tpl_tuijianList', data);
+			
+					$("#temp_tuijianList").append(html);
+					//分页回调结束处理方法, 传入的参数必须正确
+					if(callback){
+						callback(pageData);
+					}
+			 });
+		}
+
+		// //menu选择回调事件
+		// function menuDownSelect(text,val){
+		// 	var param = val.split("_");
+		// 	if(param[0] == "status"){
+		// 		$("#temp_tuijianList").html("");
+		// 			status = param[1];
+		// 	}
+		// 	layui.qyForm.pageajax(loadData,{
+		// 			"pageNo":"1",
+		// 			"pageSize":"10",
+		// 			"status" : status
+		// 		});
+			
+		// }
+	</script>
+</html>

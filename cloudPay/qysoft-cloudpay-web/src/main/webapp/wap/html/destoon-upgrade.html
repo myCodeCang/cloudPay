@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的会员</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+		<style type="text/css">
+			/*body{overflow-x: hidden;}*/
+			.layui-m-layerchild>h3{height:50px;border-bottom:1px solid #ddd;}
+			.layui-m-layercont{padding:10px 0;padding-bottom:30px;}
+			.layui-m-layercont span{text-align: center;display: block;height:30px;line-height: 30px;}
+			.layui-m-layercont h3{font-size:26px;}
+			.layui-m-layercont .odiv-input{height:30px;display: flex;display:-webkit-flex;justify-content: center;-webkit-justify-content: center;padding:0.25rem 1rem;}
+			.layui-m-layercont input{border:1px solid #ddd;width:70%;height:40px;padding-left:10px;}
+		</style>
+	</head>
+	<body> 
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left back" href="##">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">会员升级</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content upgrade">
+			<img src="../image/touxiang.png"/>
+			<span id="userName"></span>
+			<div class="aui-grid">
+				<div class="aui-row">
+					<div class="aui-col-xs-4 up" onclick="boxTab(1)" id="levelImg_1">
+						<div class="upgrade-img" ><img src="../image/ico-putong.png"/></div>
+						<span>普通会员</span>
+					</div>
+					<div class="aui-col-xs-4 up" onclick="boxTab(2)" id="levelImg_2">
+						<div class="upgrade-img" ><img src="../image/ico-vip.png"/></div>
+						<span>正式会员</span>
+					</div>
+					<div class="aui-col-xs-4 up" onclick="boxTab(3)" id="levelImg_3">
+						<div class="upgrade-img" ><img src="../image/ico-jingzuan.png"/></div>
+						<span>VIP会员</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="aui-content huiyuanzhuanqu">
+			<h3><span>会员专区</span></h3>
+		</div>
+		<!-- <div class="upgrade-zhuanqu" id="temp_levelInfo">
+			
+		</div> -->
+		<div class="upgrade-odiv" style="width:100%;overflow: hidden;">
+			<div class="upgrade-zhuanqu" id="temp_levelInfo">
+				<div class="aui-content upgrade-one" id="cpunt_1">
+					<div class="aui-grid upgrade1st">
+						<div class="aui-row aui-border-b">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-fanxian.png"/>
+								<span>每日返现</span>
+								<p id="everyBounsOne"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-xiaji.png"/>
+								<span>推荐下级</span>
+								<p>推荐下级</p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-yingye.png"/>
+								<span>商家营业额提成</span>
+								<p class="sellerBouns"></p>
+							</div>
+						</div>	
+						<div class="aui-row">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-hehuoren.png"/>
+								<span>消费提成</span>
+								<p id="staticBouns1"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-suo.png" class="suo"/>
+								<img src="../image/ico-qiquan-one.png"/>
+								<span>推广佣金</span>
+								<p id="amountPer1"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-suo.png" class="suo"/>
+								<img src="../image/ico-shengqin-one.png"/>
+								<span>申请商户</span>
+								<p>申请商户</p>
+							</div>
+						</div>
+					</div>
+					<div id="footer_0">
+					<div class="upgrade1st-but" onclick="up_one(1)">
+						<div class="aui-btn aui-btn-block">升级</div>
+					</div>
+
+					<div class="upgrade2st-chec">
+						<label><input class="aui-checkbox xieyi" type="checkbox" id="checkbox1" > 确认即表示同意<a href="yonghuxieyi.html">《丝路宝用户协议》</a></label>
+					</div>
+					</div>
+				</div>
+				<div class="aui-content upgrade-one" id="cpunt_2">
+					<div class="aui-grid upgrade1st">
+						<div class="aui-row aui-border-b">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-fanxian.png"/>
+								<span>每日返现</span>
+								<p id="everyBounsTwo"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-xiaji.png"/>
+								<span>推荐下级</span>
+								<p>推荐下级</p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-yingye.png"/>
+								<span>商家营业额提成</span>
+								<p class="sellerBouns"></p>
+							</div>
+						</div>	
+						<div class="aui-row">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-hehuoren.png"/>
+								<span>消费提成</span>
+								<p id="staticBouns2"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-qiquan.png"/>
+								<span>推广佣金</span>
+								<p id="amountPer2"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-suo.png" class="suo"/>
+								<img src="../image/ico-shengqin-one.png"/>
+								<span>申请商户</span>
+								<p>申请商户</p>
+							</div>
+						</div>
+					</div>
+					<div id="footer_1">
+					<div class="upgrade1st-but" onclick="up_one(2)">
+						<div class="aui-btn aui-btn-block">升级</div>
+					</div>
+
+					<div class="upgrade2st-chec">
+						<label><input class="aui-checkbox xieyi" type="checkbox" id="checkbox2" > 确认即表示同意<a href="yonghuxieyi.html">《丝路宝用户协议》</a></label>
+					</div>
+					</div>
+				</div>
+				<div class="aui-content upgrade-one" id="cpunt_3" >
+					<div class="aui-grid upgrade1st">
+						<div class="aui-row aui-border-b">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-fanxian.png"/>
+								<span>每日返现</span>
+								<p id="everyBounsThree"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-xiaji.png"/>
+								<span>推荐下级</span>
+								<p>推荐下级</p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-yingye.png"/>
+								<span>商家营业额提成</span>
+								<p class="sellerBouns"></p>
+							</div>
+						</div>	
+						<div class="aui-row">
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-hehuoren.png"/>
+								<span>消费提成</span>
+								<p id="staticBouns3"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-qiquan.png"/>
+								<span>推广佣金</span>
+								<p id="amountPer3"></p>
+							</div>
+							<div class="aui-col-xs-4">
+								<img src="../image/ico-shengqin.png"/>
+								<span>申请商户</span>
+								<p>申请商户</p>
+							</div>
+						</div>
+					</div>
+					<div id="footer_2">
+					<div class="upgrade1st-but" onclick="up_one(3)">
+						<div class="aui-btn aui-btn-block">升级</div>
+					</div>
+
+					<div class="upgrade2st-chec">
+						<label><input class="aui-checkbox xieyi" type="checkbox" id="checkbox3" > 确认即表示同意<a href="yonghuxieyi.html">《丝路宝用户协议》</a></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</body>
+	<!-- <script id="tpl_levelInfo" type="text/html">
+				<div class="aui-content upgrade-one" id="cpunt_1">
+				<div class="aui-grid upgrade1st">
+					<div class="aui-row aui-border-b">
+						<div class="aui-col-xs-4">
+							<img src="../image/ico-fanxian.png"/>
+							<span>每日返现</span>
+							{{if id == 1}}
+							<p>万分之三</p>
+							{{/if}}
+							{{if id == 2}}
+							<p>万分之五</p>
+							{{/if}}
+							{{if id == 3}}
+							<p>万分之八</p>
+							{{/if}}
+						</div>
+						<div class="aui-col-xs-4">
+							<img src="../image/ico-xiaji.png"/>
+							<span>推荐下级</span>
+							<p>推荐下级</p>
+						</div>
+						<div class="aui-col-xs-4">
+							<img src="../image/ico-yingye.png"/>
+							<span>商家营业额提成</span>
+							<p>商家营业额提成3%</p>
+						</div>
+					</div>
+					<div class="aui-row">
+						<div class="aui-col-xs-4">
+							<img src="../image/ico-hehuoren.png"/>
+							<span>消费提成</span>
+							{{if id == 1}}
+							<p>消费提成1%</p>
+							{{/if}}
+							{{if id == 2}}
+							<p>消费提成3%</p>
+							{{/if}}
+							{{if id == 3}}
+							<p>消费提成5%</p>
+							{{/if}}
+						</div>
+						<div class="aui-col-xs-4">
+							{{if id>1}}
+							<img src="../image/ico-qiquan.png"/>
+							{{else}}
+							<img src="../image/ico-suo.png" class="suo"/>
+							<img src="../image/ico-qiquan-one.png"/>
+							{{/if}}
+							<span>推广佣金</span>
+							<p>直推50%收益</p>
+						</div>
+						<div class="aui-col-xs-4">
+							{{if id>2}}
+							<img src="../image/ico-shengqin.png"/>
+							{{else}}
+							<img src="../image/ico-suo.png" class="suo"/>
+							<img src="../image/ico-shengqin-one.png"/>
+							{{/if}}
+							<span>申请商户</span>
+							<p>申请商户</p>
+						</div>
+					</div>
+				</div>
+				{{if show == 1}}
+				<div class="upgrade1st-but">
+					<div class="aui-btn aui-btn-block" onclick="up_one()">立即升级</div>
+				</div>
+
+				<div class="upgrade2st-chec">
+					<label><input class="aui-checkbox" type="checkbox" id="xieyi" checked=""> 确认即表示同意<a href="yonghuxieyi.html">《丝路宝用户协议》</a></label>
+				</div>
+				{{/if}}
+			</div>
+	</script> -->
+	<script src="../css/script/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+        var userLevel = 0;
+        var upLevel = 0;
+        var userLevel = 0;
+        var LevelName ='';
+        var levelMoney = '';
+        var userName='';
+        var saveFlag=false;
+        var $box ="";
+        //框架初始化
+        qySoftInit("../../static/qyScript/web/");
+
+        //apicloud 准备完成
+//        apiready = function(){
+            layui.use(['qyWin','qyForm','layer','template'], initpage);
+//        };
+        function initpage(){
+            var qyWin  = layui.qyWin;
+				getBounsSetting();
+            //$('.upgrade-img').eq(0).css({'background-color':'rgba(255,255,255,0.6)'})
+            $box=$('.upgrade-zhuanqu').eq(0), w=$('.upgrade-one').width();
+            // $('.up').on('click',function(){
+            // 	$(this).children('.upgrade-img').css({'background-color':'rgba(255,255,255,0.6)'}).parents().siblings().children('.upgrade-img').css({background:"none"});
+            // 	i=$(this).index();
+            // 	//$box.animate({'margin-left':-i*w});
+            // 	var xx = -i*w+'px';
+            // 	$box.css({"-webkit-transition":"-webkit-transform .4s linear","-webkit-transform":"translateX("+xx+")"});
+            // })
+
+				getUserInfo();
+			}
+
+			//获取各项配置信息
+			function getBounsSetting(){
+				layui.qyForm.qyajax("/f/app/userinfo/getUpdateSetting",{},function(data){
+					$("#everyBounsOne").html(data.map.everyBonusOne*100+"%");
+					$("#everyBounsTwo").html(data.map.everyBonusTwo*100+"%");
+					$("#everyBounsThree").html(data.map.everyBonusThree*100+"%");
+
+					$("#staticBouns1").html("消费提成"+data.map.staticBonus1*100+"%");
+					$("#staticBouns2").html("消费提成"+data.map.staticBonus2*100+"%");
+					$("#staticBouns3").html("消费提成"+data.map.staticBonus3*100+"%");
+
+					$("#amountPer1").html("直推"+data.map.amountPer1*100+"%"+"收益");
+					$("#amountPer2").html("直推"+data.map.amountPer2*100+"%"+"收益");
+					$("#amountPer3").html("直推"+data.map.amountPer3*100+"%"+"收益");
+
+					$(".sellerBouns").html("商家营业额提成"+data.map.sellerBonus*100+"%");
+
+				});
+			}
+
+        function boxTab(i){
+            // $("#levelImg_"+i).css({'background-color':'rgba(255,255,255,0.6)'});
+            $("#levelImg_"+i).children('.upgrade-img').css({'background-color':'rgba(255,255,255,0.6)'}).parents().siblings().children('.upgrade-img').css({background:"none"});
+            i=$("#cpunt_"+i).index();
+            //$box.animate({'margin-left':-i*w});
+            var xx = -i*w+'px';
+            $box.css({"-webkit-transition":"-webkit-transform .4s linear","-webkit-transform":"translateX("+xx+")"});
+        }
+
+        function getUserInfo(){
+            layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+                $("#userName").html(data.user.userName);
+                userLevel = data.user.userLevelId;
+                //$("#levelImg_"+userLevel).css({'background-color':'rgba(255,255,255,0.6)'});
+                userName = data.user.userName;
+                for(var i=0 ;i<userLevel ;i++){
+                    $("#footer_"+i).hide();
+                }
+                boxTab(userLevel);
+                //levelId(userLevel);
+            });
+        }
+
+
+        // function levelId(id){
+        // 	var data = {};
+        // 	var show = 0;
+        // 	upLevel = id;
+        // 	data['id'] = id;
+        // 	if(userLevel < id){
+        // 		show = 1;
+        // 	}
+        // 	data['show'] = show;
+        // 	var html = template('tpl_levelInfo', data);
+        // 	$("#temp_levelInfo").html("");
+        // 	setTimeout(function () {
+        //         $("#temp_levelInfo").html(html);
+        //     }, 300);
+
+			// 	// $("#temp_levelInfo").html(html);
+			// }
+			function up_one(id){
+				
+				if(id == 0){
+					layui.qyWin.toast("请先选择一个等级!");
+					return ;
+				}
+				if(id <= userLevel){
+					layui.qyWin.toast("选择等级必须大于原始等级!");
+					return ;
+				}
+				if(!$("#checkbox"+id).is(':checked')){
+					layui.qyWin.toast("请先勾选用户协议!");
+					return ;
+				}
+				if(saveFlag){
+					
+					return ;
+				}
+				saveFlag = true;
+				layui.qyForm.qyajax("/f/app/userinfo/userLevelInfo",{levelId:id},function(data){
+					layui.layer.open({
+				    title: [
+				      '请输入支付密码'
+				    ]
+				    ,content: '<div><span>升级等级:'+data.userLevelInfo.levelName+'</span><h3 style="height:2.5rem;line-height:2.5rem;text-align:center;">￥'+data.userLevelInfo.money+'</h3></div><div class="odiv-input"><input type="password" id="password" placeholder="请输入支付密码"/></div>',
+				    shadeClose: false,
+				    btn: ['确认','取消'],
+				    yes: function(index, layero){
+				    	api.showProgress({
+								    title: '努力加载中...',
+								    text: '先喝杯茶...',
+								    modal: true
+								}); 
+			            up_two(id);
+			          },
+		         	no: function(index){	     			 		
+						saveFlag = false;
+						api.hideProgress();
+						layui.layer.close(index);
+						}
+				  });
+				});	 
+
+
+        }
+        function up_two(id){
+            var password = $("#password").val();
+            layui.qyForm.qyajax("/f/app/userinfo/userLevelUp",{levelId:id,password:password},function(data){
+                layui.qyWin.toast(data.info);
+                saveFlag = false;
+//                api.hideProgress();
+                setTimeout("javascript:history.go(-1)",1000);
+            },function(res){
+                saveFlag = false;
+//                api.hideProgress();
+                if(res.errorCode == 1001){
+                    setTimeout("charge()",2000);
+                }
+            });
+        }
+
+        function charge(){
+            layui.qyWin.win("Recharge", CONS_AJAX_URL + "/f/payment/pay/recharge?beanName=rechargeService&methodName=updateUserMoney&userName=" + userName, {});
+        }
+	</script>
+</html>
+

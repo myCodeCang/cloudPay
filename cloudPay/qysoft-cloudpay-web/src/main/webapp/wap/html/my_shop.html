@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>商家详情</title>
+		<link rel="stylesheet" type="text/css" href="../css/swiper/swiper.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+    	<!--<script type="text/javascript" src="../script/other/common.js"></script>-->
+		<style>
+    		.swiper-slide img{width:100%;max-height:276px;}
+    	</style>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			 <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">我的商铺</div>
+			<a class="aui-pull-right aui-btn">
+		        <span class=" " onclick="save()">保存</span>
+		    </a>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content mar-two">
+			<div class="swiper-container ">
+
+		        <div class="swiper-wrapper" >
+		            <div class="swiper-slide" id="shangpu" ></div>
+		            <div class="swiper-slide" id="shangpu1"></div>
+		            <div class="swiper-slide" id="shangpu2"></div>
+		        </div>
+		        <div class="swiper-pagination"></div>
+		    </div>
+		</div>
+		<style type="text/css">
+			.shangjia-detail .aui-list-item-title{font-size:0.75rem;}
+			.shangjia-detail .aui-list-item:active{background:#fff;border: none; background-size: 100% 1px; background-repeat: no-repeat; background-position:bottom; background-image: linear-gradient(0,#dddddd,#dddddd 50%,transparent 50%);}
+		</style>
+		<div id="allmap"></div>
+		<section class="aui-content shangjia-detail">
+	        <ul class="aui-list">
+	        	<input type="hidden" id="shopId">
+	             <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	店铺名称
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text"  id="shopName" readonly="readonly">
+	                    </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	联系电话
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text"  id="mobile" readonly="readonly">
+	                    </div>
+	                </div>
+	            </li>
+	             <li class="aui-list-item weizhi">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	实时位置
+	                    </div>
+	                    <div class="aui-list-item-input" style="width:70%;">
+	                        <input type="text"  id="address_position" readonly="readonly" value="">
+	                    </div>
+	                    <div class="aui-list-item-label" style="width:6rem;display: inline-block;" onclick="getbmap()">
+		                    <div class="aui-btn btn_green aui-font-size-12 aui-pull-right" style="padding: 0 0.4rem;background:#7E32B8;color:#fff;">获取位置</div>
+		                </div>
+	                </div>
+	            </li>
+	            <input type="hidden" id="lon" />
+				<input type="hidden" id="lat" />
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	详细地址
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text"  id="address" placeholder="请输入详细地址">
+	                    </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	服务分类
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text"  id="classifyName" readonly="readonly">
+	                    </div>
+	                </div>
+	            </li> 
+	             <li class="aui-list-item text-shangchuan">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	服务介绍 
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <textarea placeholder="服务内容" id="remarks" readonly="readonly"></textarea>
+	                    </div>
+	                </div>
+	            </li>
+	        </ul>
+	    </section>
+	</body>
+	<script src="../script/other/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://api.map.baidu.com/api?v=1.4&key=Lwk82G3NmE6BGfZsq59N0sVhf1a63dLb&callback=initialize" type="text/javascript"></script>
+	<script type="text/javascript">
+		var clickTimes = 0;
+	 	qySoftInit("../../static/qyScript/web/");
+		var userName = "";
+		var userLevel = 0;
+		var saveFlag = false;
+		var bMap = null;
+		var addre = '';
+		//apicloud 准备完成
+
+		  	layui.use(['qyWin','qyForm','qyShop','template','layer'], initpage);
+		  	
+
+
+		function initpage(){
+			var qyWin  = layui.qyWin;
+			var qyForm = layui.qyForm;
+		  	loadData();	 
+		}
+
+		function loadData(){
+			layui.qyForm.qyajax("/f/app/shopManage/getUserShopInfo",{},function(data){
+					$("#shangpu").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg+'">');
+					$("#shangpu1").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg1+'">');
+					$("#shangpu2").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg2+'">');
+					$("#shopId").val(data.shopInfo.id);
+					$("#shopName").val(data.shopInfo.shopName);
+					$("#lon").val(data.shopInfo.addressX);
+					$("#lat").val(data.shopInfo.addressY);
+					$('#classifyName').val(data.shopInfo.classifyName);
+					$("#mobile").val(data.shopInfo.mobile);
+					$("#address").val(data.shopInfo.shopAddress);
+					$("#remarks").val(data.shopInfo.remarks);
+
+					var swiper = new Swiper('.swiper-container', {
+							pagination: '.swiper-pagination',
+							paginationClickable: true,
+							autoplay:3000,
+							loop:true,
+							autoplayDisableOnInteraction : false
+					});
+			});
+		}
+		function getbmap(){
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.331398,39.897445);
+			map.centerAndZoom(point,12);
+
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r){
+				if(this.getStatus() == BMAP_STATUS_SUCCESS){
+						var mk = new BMap.Marker(r.point);
+						map.addOverlay(mk);
+						map.panTo(r.point);
+						var geoc = new BMap.Geocoder();    
+						geoc.getLocation(r.point, function(rs){
+						var addComp = rs.addressComponents;
+						var obj = addComp.province + ", " + addComp.city + ", " + addComp.district;
+						alert("您当前所在位置："+obj);
+						$("#address_position").val(obj);
+						$("#lon").val(r.point.lng);
+						$("#lat").val(r.point.lat);
+					}); 
+					
+				}
+				else {
+					alert('failed'+this.getStatus());
+				}        
+			},{enableHighAccuracy: true})	       
+
+		}
+
+		function save(){
+			var shopId = $("#shopId").val();
+			var address = $("#address").val();
+			var lon = $("#lon").val();;
+			var lat = $("#lat").val();
+			if(!address){
+				layui.qyWin.toast("请将信息填写完整!");
+				return ;
+			}		
+			if(saveFlag){
+				return;
+			}
+			var parm = {
+				lon : lon,
+				lat : lat,
+				address:address,
+				id: shopId
+			}
+			saveFlag = true;
+			layui.qyForm.qyajax("/f/app/shopManage/saveShopAddress",parm,function(data){
+				layui.qyWin.toast("保存成功!");
+				saveFlag = false;
+			},function(res){
+				saveFlag = false;
+			});
+		}
+
+	</script>
+</html>

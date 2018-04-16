@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>充值</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			 <a class="aui-pull-left aui-btn back"  href="javascript :history.back(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">充值</div>
+			<div class="aui-pull-right"><a href="chongzhi-set.html">明细</a></div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content aui-margin-t-10 cz-one">
+		    <ul class="aui-list aui-form-list">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    充值金额：
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <input type="text" placeholder="请输入充值金额">
+		                </div>
+		            </div>
+		        </li>
+		        
+		        <li class="aui-list-item cz-one1st">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    当前现金余额：0
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item cz-one2st">
+		            <div class="aui-list-item-inner">
+		            	<div class="aui-list-item-label">
+		                    <img src="../image/pic-zhifubao.png" style="width:1.5rem;"/><span>支付宝支付</span>
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <label><input class="aui-radio aui-pull-right" type="radio" name="demo1" checked></label>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item cz-one2st">
+		            <div class="aui-list-item-inner">
+		            	<div class="aui-list-item-label">
+		                    <img src="../image/pic-weixin.png" style="width:1.5rem;"/><span>微信支付</span>
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <label><input class="aui-radio aui-pull-right" type="radio" name="demo1"></label>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item cz-one2st">
+		            <div class="aui-list-item-inner">
+		            	<div class="aui-list-item-label">
+		                    <img src="../image/pic-yinglian.png" style="width:1.5rem;"/><span>银联支付</span>
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <label><input class="aui-radio aui-pull-right" type="radio" name="demo1"></label>
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+		</div>  
+		<div class="aui-content zhuanzhang-but">
+			<div class="aui-btn aui-btn-block">充值</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm'], initpage);
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+				qyWin.fixStatusBar("header");
+			}
+			
+			function save(){
+
+				var oldPwd = $("#oldPwd").val();
+				var newPwd = $("#newPwd").val();
+				var newPwds = $("#newPwds").val();
+
+				if(!oldPwd){
+					layui.qyWin.toast("请输入原始密码!");
+					return ;
+				}
+				if(!newPwd){
+					layui.qyWin.toast("请输入新密码!");
+					return ;
+				}
+				if(newPwd != newPwds){
+					layui.qyWin.toast("请两次新密码保持一致!");
+					return ;
+				}
+				var data = {
+					oldPwd : oldPwd,
+					newPwd : newPwd
+				}
+				layui.qyForm.qyajax("/f/app/userinfo/updatePassword",data,function(res){
+						layui.qyWin.toast(res.info);
+						setTimeout("javascript:history.go(-1)",1000);
+				});
+
+				
+			}
+	</script>
+
+</html>

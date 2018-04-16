@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>账变明细</title>
+		<link rel="stylesheet" href="../css/module/menudown/menudown.css" />
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	
+	<body class="bg-fff">
+		<header class="aui-bar aui-bar-nav home" id="header">
+		    <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title">账变明细</div>
+		    <!-- <a class="aui-pull-right aui-btn">
+		        <span class="aui-iconfont aui-icon-home"></span>
+		    </a> -->
+		</header>
+		<div class="xialaye">
+			<dl class="topmenu">
+				<dt>
+					<div class="selectlist">
+						<div class="select_textdiv bord">
+							<input type="hidden" value=""/>
+							<p class="s_text">收/支&nbsp;&nbsp;<i class="aui-iconfont aui-icon-down"></i></p>
+						</div>
+						<div class="select_textul">
+							<ul class="select_first_ul">
+								<li>
+									<p value="type_">全部</p>
+								</li>
+								<li><p value="type_0">收入</p></li>
+								<li><p value="type_1">支出</p></li>
+							</ul>
+							<div class="mask"></div>
+						</div>
+					</div>	
+				</dt>
+				<dt>
+					<div class="selectlist">
+						<div class="select_textdiv">
+							<input type="hidden" value=""/>
+							<p class="s_text">时间&nbsp;&nbsp;<i class="aui-iconfont aui-icon-down"></i></p>
+						</div>
+						<div class="select_textul">
+							<ul class="select_first_ul">
+								<li>
+									<p value="time_">全部</p>
+								</li>
+								<li>
+									<p value="time_7">7天之内</p>
+								</li>
+								<li>
+									<p value="time_15">15天之内</p>
+								</li>
+
+							</ul>
+							<div class="mask"></div>
+						</div>
+					</div>	
+				</dt>
+				
+			</dl>
+		</div>
+		<div class="height-two"></div>
+		<div class="aui-content asset zichan">
+			<ul class="aui-list aui-media-list" id= "temp-chargeLog">
+		       <!--  <li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <div class="aui-list-item-title">充值</div>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		            			(3月份会员单位转让服务费)
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    	2017-04-12 16:31:55
+		                    </div>
+		                    <span class="asset-jia">+0.85</span>
+		                </div>
+		            </div>
+		        </li> -->
+		        
+		    </ul>    
+		</div>
+		<div class="jiazai-box aui-content"></div>
+	</body>
+	<script id="tpl-chargeLog" type="text/html">
+		{{if userAccountchange.count ==0 }}
+		<div class="aui-content shdz">
+			<img src="../image/zanwushuju.png">
+		</div>
+		{{else}}
+		{{each userAccountchange.list}} 
+				<li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <div class="aui-list-item-title">
+		                        	{{$value.beforeMoney < $value.afterMoney ? "收入" : "支出"}} - 
+		                        	{{$value.moneyType == 1 ? "现金" : $value.moneyType == 2 ? "积分" : $value.moneyType == 3 ? "丝路":"其他"}}
+		                        </div>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		            			{{$value.commt}}
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    	{{$value.createDate}}
+		                    </div>
+		                    {{if $value.beforeMoney < $value.afterMoney}} 
+		                    <span class="asset-jia">+ {{$value.changeMoney}}</span>
+		                    {{else if $value.beforeMoney > $value.afterMoney}} 
+		                    <span class="asset-jian"> {{$value.changeMoney}}</span>
+		                    {{/if}}     
+		                </div>
+		            </div>
+		        </li>
+		{{/each}}
+		{{/if}}
+		
+	</script>
+	<!-- <script type="text/javascript" src="../script/jquery/jquery.js" ></script>
+	<script type="text/javascript" src="../script/other/shuaixuan.js"></script> -->
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+			var type = "";
+			var date = "";
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','menudown'], initpage);
+
+
+			
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+
+				 var menudown = layui.menudown;
+				 menudown.init(2,menuDownSelect);
+
+				qyForm.pageajax(loadData,{
+					"pageNo":"0",
+					"pageSize":"10"
+				});
+			}
+			
+
+			function loadData(param,callback){
+
+				layui.qyForm.qyajax("/f/app/userinfo/userAccountChange",param,function(data){
+						var pageData = data.userAccountchange;
+						var html = template('tpl-chargeLog', data);
+						$("#temp-chargeLog").append(html);
+
+
+						//分页回调结束处理方法, 传入的参数必须正确
+						if(callback){
+							callback(pageData);
+						}
+				});
+			}
+
+
+			//menu选择回调事件
+			function menuDownSelect(text,val){
+				var param = val.split("_");
+				if(param[0] == "type"){
+					$("#temp-chargeLog").html("");
+					
+						type = param[1];
+				
+				}
+
+				if(param[0] == "time"){
+					$("#temp-chargeLog").html("");
+					
+					
+						date = param[1];
+
+				}
+				
+				layui.qyForm.pageajax(loadData,{
+						"pageNo":"0",
+						"pageSize":"10",
+						"changeType" : type,
+						"date" : date
+					});
+			}
+	</script>
+</html>

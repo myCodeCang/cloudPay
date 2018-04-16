@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>财富</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<!--<script type="text/javascript" src="../script/layer/layui.js"></script>-->
+    	<!--<script type="text/javascript" src="../script/qyconfig.js"></script>-->
+	</head>
+	<!--#include virtual="common/mainWin.html" -->
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			<div class="">财富</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content caifu">
+	        <ul class="aui-list aui-media-list">
+	            <li class="aui-list-item aui-list-item-middle">
+	                <div class="aui-media-list-item-inner">
+	                    <div class="aui-list-item-inner aui-list-item-arrow">
+	                        <div class="aui-list-item-text">
+	                            现金余额
+	                        </div>
+	                        <div class="aui-list-item-text">
+	                            0
+	                        </div>
+	                    </div>
+	                </div>
+	            </li>
+	        </ul>
+	   </div>
+	    <div class="aui-content caifu-one aui-margin-b-15">
+	    	<div class="aui-grid">
+	    		<div class="aui-row aui-border-b">
+	    			<div class="aui-col-xs-6">
+	    				<div class="caifu-one1st">
+	    					<img src="../image/jifen.png"/>&nbsp;&nbsp;&nbsp;<span>积分</span>
+	    				</div>
+	    				<span class="cai-sp">0</span>
+	    				<div class="caifu-one2st"><!--这个是撑内容的-->
+	    					<div class="aui-btn aui-pull-left" disabled=""></div>
+	    				</div>
+	    			</div>
+	    			<div class="aui-col-xs-6">
+	    				<div class="caifu-one1st">
+	    					<img src="../image/guanyuan.png"/>&nbsp;&nbsp;&nbsp;<span>丝路(个)</span>
+	    				</div>
+	    				<span class="cai-sp">0</span>
+	    				<div class="caifu-one2st">
+	    					<div class="aui-btn aui-pull-left">提现</div>
+	    					<div class="aui-btn aui-pull-right">转账</div>
+	    				</div>
+	    			</div>
+	    		</div>
+	    		<div class="aui-row">
+	    			<div class="aui-col-xs-6">
+	    				<div class="caifu-one1st">
+	    					<img src="../image/yongjinjifen.png"/>&nbsp;&nbsp;&nbsp;<span>佣金积分</span>
+	    				</div>
+	    				<span class="cai-sp">0</span>
+	    				<div class="caifu-one2st">
+	    					<div class="aui-btn aui-pull-left">购买</div>
+	    				</div>
+	    			</div>
+	    			<div class="aui-col-xs-6">
+	    				<div class="caifu-one1st">
+	    					<img src="../image/yinghangka.png"/>&nbsp;&nbsp;&nbsp;<span>银行卡</span>
+	    				</div>
+	    				<span class="cai-sp">0张</span>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class="aui-content">
+	    	<img src="../image/silulicai.png"/>
+	    </div>
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+//			qySoftInit("../script/");
+		
+			//apicloud 准备完成
+//			apiready = function(){
+//				  layui.use(['qyWin','qyForm'], initpage);
+//			};
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+				qyWin.fixStatusBar("header");
+			}
+			
+			function save(){
+
+				var oldPwd = $("#oldPwd").val();
+				var newPwd = $("#newPwd").val();
+				var newPwds = $("#newPwds").val();
+
+				if(!oldPwd){
+					layui.qyWin.toast("请输入原始密码!");
+					return ;
+				}
+				if(!newPwd){
+					layui.qyWin.toast("请输入新密码!");
+					return ;
+				}
+				if(newPwd != newPwds){
+					layui.qyWin.toast("请两次新密码保持一致!");
+					return ;
+				}
+				var data = {
+					oldPwd : oldPwd,
+					newPwd : newPwd
+				}
+				layui.qyForm.qyajax("/f/app/userinfo/updatePassword",data,function(res){
+						layui.qyWin.toast(res.info);
+						setTimeout("javascript:history.go(-1)",1000);
+				});
+
+				
+			}
+	</script>
+
+</html>

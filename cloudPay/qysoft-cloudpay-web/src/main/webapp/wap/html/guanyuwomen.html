@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>关于我们</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+		<style type="text/css">
+			#shiti{padding:0 0.75rem;}
+			#shiti img{width:100%;}
+		</style>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+		   <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title">关于我们</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content " id="shiti">
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+				
+				loadData();
+
+			}
+			
+			function loadData(){
+				layui.qyForm.qyajax("/f/webArticle/detailByKeyword",{keywords:"chairman_article"},function(data){
+                      $("#shiti").html(data.agreement.articleData.content);
+                });
+			}
+	</script>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>财富</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+
+    			<!-- 下拉刷新样式 -->
+		<!--<link rel="stylesheet" type="text/css" href="../css/aui/aui-pull-refresh.css" />-->
+	</head>
+	<!--#include virtual="common/mainWin.html" -->
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+		    <!-- <a class="aui-pull-left aui-btn back" href="#">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a> -->
+		    <div class="aui-title">丝路</div>
+		     <a class="aui-pull-right aui-btn">
+		        <span class="aui-iconfont aui-icon-menu" onclick="detail()"></span>
+		    </a>
+		</header>
+		<!--<div class="hei-len"></div>-->
+		<div id="contentBody">
+            <div class="aui-content shouyi-one">
+                <p>昨日收益(元)</p>
+                <span id="income"></span>
+            </div>
+
+            <div class="aui-content shouyi-two">
+                <div class="aui-grid">
+                    <div class="aui-row">
+                        <div class="aui-col-xs-6">
+                            <span class="spthree aui-font-size-18" id="money"></span>
+                            <p>总丝路</p>
+                        </div>
+                        <div class="aui-col-xs-6">
+                            <span class="spthree aui-font-size-18" id="release"></span></span><span>(元)</span>
+                            <p>累计释放</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-content aui-margin-t-10 quxian" id="chart" style="margin: 8px; width: 98%; height: 310px;">
+            </div>
+        </div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+//			qySoftInit("../../static/qyScript/web/");
+//			//apicloud 准备完成
+//
+            layui.use(['qyWin','qyForm','template','layer','qyShop','echarts', 'echarts-theme'], initpage);
+
+            initpage();
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				loadData();
+
+				//下拉刷新
+//			 	qyWin.setRefreshHeaderAUI($("#contentBody")[0],function(){
+//					loadData(true);
+//			 	});
+			}
+
+			function timeLoadData(){
+				setTimeout(function(){
+					loadData(true);
+					timeLoadData();
+				},10000);
+			}
+
+			function loadData(hdProcess){
+			    //获取昨日收益和累计释放
+				layui.qyForm.qyajax("/f/app/userinfo/incomeYesterday",{},function(data){
+                    $("#income").html(data.userAccountchange);
+                    $("#release").html(data.totalRelease);
+
+                    //加载曲线
+                    showGraph(data.xAxis, data.yAxis);
+				},function(){},{sync:hdProcess});
+
+				//获取总金额
+                layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+                    $("#money").html(data.user.money2);
+                },function(){},{sync:hdProcess});
+			}
+
+			//刷新页面方法, closeWin(true) 回调使用
+			function reload(){
+				initpage();
+			}
+
+			function detail(){
+				layui.qyWin.win("yuedetail", "yuedetail.html", {});
+			}
+
+			function showGraph(xAxis, yAxis) {
+                var myChart = echarts.init(document.getElementById('chart'), 'theme_zx');
+                var option = {
+                    title: {
+                        text: '收益走势图',
+                        subtext: '单位: 元'
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: '收益'
+                    },
+                    toolbox: {
+                        show: false,
+                        feature: {
+                            restore: {}
+                        }
+                    },
+                    xAxis:  {
+                        type: 'category',
+                        boundaryGap: false,
+                        //data: ['06/01','06/02','06/03','06/04','06/05','06/06','06/07','06/08','06/09','06/10']
+                        data: xAxis
+                    },
+                    yAxis: {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value}',
+							rotate: 60
+                        }
+                    },
+                    series: [
+                        {
+                            name: '收益',
+                            type: 'line',
+                            //data: [12.5, 20, 22.5,35, 68, 52, 48.5, 59, 62, 30.5],
+                            data: yAxis,
+                            markPoint: {
+                                //symbol: 'roundRect',
+								symbolSize: [60, 50],
+								label: {
+                                    normal: {
+                                        textStyle: {
+                                            fontSize: 8
+										}
+									}
+								},
+								itemStyle: {
+                                    normal: {
+                                        opacity: 0.8
+									}
+								},
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            /*markLine: {
+                                data: [
+                                    {type: 'average', name: '平均值'}
+                                ]
+                            }*/
+                        }
+                    ],
+                    dataZoom: [
+                        {   // 这个dataZoom组件，默认控制x轴。
+                            type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                            start: 0,      // 左边在 10% 的位置。
+                            end: 100         // 右边在 60% 的位置。
+                        },
+                        {   // 这个dataZoom组件，也控制x轴。
+                            type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+                            start: 0,      // 左边在 10% 的位置。
+                            end: 100         // 右边在 60% 的位置。
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+			}
+	</script>
+</html>

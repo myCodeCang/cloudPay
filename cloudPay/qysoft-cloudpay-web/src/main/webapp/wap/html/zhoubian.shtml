@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />-->
+		<title>周边</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/aui/aui-tab.js"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+
+		<style type="text/css">
+			html{height:100%}
+			body{height:100%;margin:0px;padding:0px}
+			#count{height:100%}
+		</style>
+	</head>
+	<!--#include virtual="common/mainWin.html" -->
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+		    <div class="aui-title">
+		        <div class="aui-bar aui-bar-btn">
+		            <div class="aui-bar-btn-item aui-active" tapmode="" data-item-order="0" onclick="list()" id="tablist">列表</div>
+		            <div class="aui-bar-btn-item" tapmode="" data-item-order="1" onclick="map2()" id="tabmap">地图</div>
+		        </div>
+		    </div>
+		    <a class="aui-pull-right aui-btn">
+		        <!-- <span class="aui-iconfont aui-icon-search"></span> -->
+		    </a>
+		</header>
+		<div class="height-one"></div>
+		<div id="count">
+		
+		</div>
+	</body>
+	<script id="tpi_list" type="text/html">
+		<div class="aui-content home-one aui-margin-b-10" >
+			<div class="aui-grid">
+				<div class="aui-row">
+				{{each shopClassify}}
+					<a href="lianyingshanghu.html?classId={{$value.id}}">
+					<div class="aui-col-xs-3">
+						<img src="{{url}}{{$value.classifyimg}}" style="display:block;margin:0 auto;width:1.8rem;">
+            			<p>{{$value.classifyname}}</p>
+					</div>
+					</a>
+				{{/each}}
+				</div>
+			</div>
+		</div>
+		<div class="aui-content difan">
+			<span>你可能感兴趣的地方</span>
+		</div>
+				
+	</script>
+	<script src="http://api.map.baidu.com/api?v=2.0&key=Lwk82G3NmE6BGfZsq59N0sVhf1a63dLb&callback=initialize" type="text/javascript"></script>
+	<script type="text/javascript">
+		var mp ='';
+		//框架初始化
+//		qySoftInit("../script/");
+
+		//apicloud 准备完成
+
+        layui.use(['qyWin','qyForm','qyShop','template','layer'], initpage);
+
+        initpage();
+        function initpage(){
+            var qyWin  = layui.qyWin;
+            //tab切换
+            $("#count").html('');
+
+            //tabCut();
+            list();
+        }
+
+        function list(){
+            //bMap.hide();
+
+            $("#tablist").addClass('aui-active');
+            $("#tabmap").removeClass('aui-active');
+            layui.qyForm.qyajax("/f/app/shopManage/shopClassifyList",{},function(data){
+                data['url'] = CONS_IMG_URL;
+                var html = template('tpi_list',data);
+                $("#count").html(html);
+
+            });
+
+        }
+
+        function map2() {
+            $("#tabmap").addClass('aui-active');
+            $("#tablist").removeClass('aui-active');
+            mp = new BMap.Map('count');
+            mp.centerAndZoom(new BMap.Point(121.491, 31.233), 13);
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                    var mk = new BMap.Marker(r.point);
+                    var myIcon = new BMap.Icon("../image/ziji.png",new BMap.Size(25,30));
+                    mk.setIcon(myIcon);
+                    mp.addOverlay(mk);
+                    var label = new BMap.Label("当前位置",{offset:new BMap.Size(20,-10)});
+                    mk.setLabel(label);
+                    mp.panTo(r.point);
+                    layui.qyForm.qyajax("/f/app/shopManage/getNearShopInfo",{},function(data){
+                        for(var i=0;i<data.nearlist.length;i++){
+                            var opts = {
+                                width : 150,     // 信息窗口宽度
+                                height: 75,     // 信息窗口高度
+                                title : "店名:"+data.nearlist[i].name , // 信息窗口标题
+                                enableMessage:true//设置允许信息窗发送短息
+                            };
+                            var marker = new BMap.Marker(new BMap.Point(data.nearlist[i].lon,data.nearlist[i].lat));
+                            // 创建标注
+                            var content = "地址: "+data.nearlist[i].address;
+                            mp.addOverlay(marker);               // 将标注添加到地图中
+
+                            addClickHandler(content,marker,opts);
+                        }
+
+                    });
+                    //alert('您的位置：'+r.point.lng+','+r.point.lat);
+                }
+                else {
+                    //alert('failed'+this.getStatus());
+                    if(this.getStatus() == 6){
+                        alert("请您确认是否打开了位置共享权限!");
+                    }else{
+                        alert("位置获取失败!");
+                    }
+
+                }
+            },{enableHighAccuracy: true})
+
+        }
+
+        function addClickHandler(content,marker,opts){
+            marker.addEventListener("click",function(e){
+                openInfo(content,e,opts)}
+            );
+        }
+
+        function openInfo(content,e,opts){
+            var p = e.target;
+            var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+            //alert(opts);
+            var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+            mp.openInfoWindow(infoWindow,point); //开启信息窗口
+        }
+        // function tabCut(){
+        // 	var bar = document.querySelectorAll(".aui-bar-btn");
+        // 	if(bar){
+        //     for(var i=0; i<bar.length;i++){
+        //         var d = bar[i];
+        //         var tab = new auiTab({
+        //             element:bar[i],
+        //             repeatClick:true
+        //         },function(ret){
+        //             if(ret.dom.parentNode.getAttribute("type") && ret.dom.parentNode.getAttribute("type")=="count"){
+        //                 var count = parseInt(document.getElementById("count").value);
+        //                 if(ret.index==2)return;
+        //                 if(ret.index==1){
+        //                     document.getElementById("count").value = count-1;
+        //                 }
+        //                 if(ret.index==3){
+        //                     document.getElementById("count").value = count+1;
+        //                 }
+        //             }
+        //         });
+
+        //     }
+        // }
+        // }
+	</script>
+</html>

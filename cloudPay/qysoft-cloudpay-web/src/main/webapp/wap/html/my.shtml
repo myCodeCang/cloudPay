@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+
+		<script type="text/javascript" src="../script/layer/layui.js"></script>
+    	<script type="text/javascript" src="../script/qyconfig.js"></script>
+    			<!-- 下拉刷新样式 -->
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui-pull-refresh.css" />
+	</head>
+	<!--#include virtual="common/mainWin.html" -->
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			<div class="">个人中心</div>
+		</header>
+		<div class="height-one"></div>
+		<div id="contentBody">
+		<div class="aui-content my-one aui-margin-b-10">
+			<div class="aui-list aui-media-list aui-list-noborder">
+	            <div class="aui-list-item aui-list-item-middle">
+	                <div class="aui-media-list-item-inner ">
+	                    <div class="aui-list-item-media" style="width:4rem;">
+	                        <img src="../image/touxiang.png" class="aui-img-round" >
+	                    </div>
+	                    <div class="aui-list-item-inner">
+	                       	<p id="userName"></p>
+	                       	<p>用户等级:&nbsp;<span id="userLevel"></span></p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+		<section class="aui-content mymenu_lst" >
+			<ul class="aui-list aui-list-in bor-bn-a">
+				<a href="gerenxinxi.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-gerenxinxi"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">个人信息</div>
+						</div>
+					</li>
+				</a>
+				<a href="yinhangka.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-yinghangka"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">银行卡管理</div>
+						</div>
+					</li>
+				</a>
+				<a onclick="show()" id="shop" style="display: none;">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-huiyuanrenzheng"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">我的商铺</div>
+						</div>
+					</li>
+				</a>
+			</ul>
+			<div class="blank_10"></div>
+			<ul class="aui-list aui-list-in bor-bn-a" style="background-image:none;">
+				<a href="my-vip.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-huiyuanguanli"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">会员管理</div>
+						</div>
+					</li>
+				</a>
+				<a href="my-fenxiang.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-fenxiang"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">我的分享</div>
+						</div>
+					</li>
+				</a>
+				<a href="zichan.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-zhangbian"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">账变明细</div>
+						</div>
+					</li>
+				</a>
+			</ul>
+			<div class="blank_10"></div>
+			<ul class="aui-list aui-list-in bor-bn-a" style="background-image:none;">
+				<a href="gaipassword.html?flag=updatePassword">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-xiugaimima"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">修改密码</div>
+						</div>
+					</li>
+				</a>
+				<a href="gaipassword.html?flag=updatePayPassword">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-xiugaizhifu"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">修改支付密码</div>
+						</div>
+					</li>
+				</a>
+				<a href="guanyuwomen.html">
+					<li class="aui-list-item">
+						<div class="aui-list-item-label-icon">
+							<i class="pic-guanyuwomen"></i>
+						</div>
+						<div class="aui-list-item-inner aui-list-item-arrow">
+							<div class="aui-list-item-title">关于我们</div>
+						</div>
+					</li>
+				</a>
+			</ul>
+		</section>
+		<div class="aui-content geren-but" onclick="loginOut()">
+			<div class="aui-btn aui-btn-block">退出账户</div>
+		</div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+	</div>
+	</body>
+
+	<script type="text/javascript">
+	
+			//框架初始化
+//			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+//			apiready = function(){
+				  layui.use(['qyWin','qyForm','template','layer'], initpage);
+//			};
+            initpage();
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+
+				loadData();
+
+				//下拉刷新
+//			 	qyWin.setRefreshHeaderAUI($("#contentBody")[0],function(){
+//					loadData(true);
+//			 	});
+
+			}
+
+			// function timeLoadData(){
+			// 	setTimeout(function(){
+			// 		loadData(true);
+			// 		timeLoadData();
+			// 	},10000);
+			// }
+			function show(){
+                layui.layer.open({
+                    content: '如需使用该功能,请下载APP',
+                    btn: ['确认']
+                });
+			}
+			function loadData(){
+
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+						userName = data.user.userName;
+						$("#userName").html("用户名: "+data.user.userName);
+						$("#userLevel").html(data.user.userLevel.levelName);
+						if(data.user.userLevelId == 3){
+							$("#shop").show();
+						}
+						// $("#score").html(data.user.score);
+						// $("#scoreDetial").html(data.user.money3);
+						// $("#money2").html(data.user.money2);
+				},function(){},{});
+			 }
+			//刷新页面方法, closeWin(true) 回调使用
+			function reload(){
+				initpage();
+			}
+
+			function loginOut(){
+				layui.layer.open({
+	   				 	content: '您确定要退出吗？'
+	    				,btn: ['确认', '取消']
+	    				,yes: function(index){
+                        layui.qyForm.qyajax("/f/logOut",{},function(data){
+                            window.location.href="login.html";
+                        });
+						}
+				 },function(){},{});
+				
+			}	
+			
+	</script>
+</html>

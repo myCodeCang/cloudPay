@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>认证信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper/swiper.min.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home back">
+			<a class="aui-pull-left aui-btn "  href="index.shtml">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">认证信息</div>
+		</header>
+		<div class="height-one"></div>
+		<div id="allmap"></div>
+		<div class="aui-content aui-margin-b-15 fabu">
+			<input type="hidden" id="shopId">
+	        <ul class="aui-list aui-form-list fabu_one">      
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	商铺名称
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text" placeholder="商铺名称" id="shopName">
+	                    </div>
+	                </div>
+	            </li>
+	             <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label" >
+	                     	身份证号
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text" placeholder="请填写您的身份证号" id="idCard">
+	                    </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	联系电话
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text" placeholder="联系电话" id="mobile">
+	                    </div>
+	                </div>
+	            </li>
+	              <li class="aui-list-item weizhi">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	店铺位置
+	                    </div>
+	                    <div class="aui-list-item-input" style="width:70%;">
+	                        <input type="text"  id="address_position" readonly="readonly" value="">
+	                    </div>
+	                    <div class="aui-list-item-label" style="width:6rem;display: inline-block;" onclick="getbmap()">
+		                    <div class="aui-btn btn_green aui-font-size-12 aui-pull-right" style="padding: 0 0.4rem;background:#7E32B8;color:#fff;">获取位置</div>
+		                </div>
+	                </div>
+	            </li>
+	            <input type="hidden" id="lon" />
+				<input type="hidden" id="lat" />
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	详细地址
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <input type="text"  id="address" placeholder="请输入详细地址">
+	                    </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	服务分类
+	                    </div>
+	                    <div class="aui-list-item-input">
+		                    <select id = "select" >
+                    		</select>
+		                </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item text-shangchuan">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	服务介绍 
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                        <textarea placeholder="服务内容" id="remarks"></textarea>
+	                    </div>
+	                </div>
+	            </li>
+	           
+	            <!-- <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	所在区域
+	                    </div>
+	                    <div class="aui-list-item-input">
+							<div class="aui-col-xs-4">
+								<select class="sj_select" id="select">
+									<option value="">选择省</option>
+									
+								</select>
+							</div>
+							<div class="aui-col-xs-4">
+								<select class="sj_select"><option value="">选择市</option><option value="1">中国</option></select>
+							</div>
+							<div class="aui-col-xs-4">
+								<select class="sj_select"><option value="" selected="">选择区</option></select>
+							</div>
+	                    </div>
+	                </div>
+	            </li> -->
+	            <li class="aui-list-item img-shangchuan">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	正反及手持身份证照片
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                    	<input type="hidden" name="idCard_z">
+							<div class="aui-col-xs-4" onclick="setUserPic('idCard_z')" id="idCard_z">
+			                    <img src="../image/car_zhengmian.jpg">
+			                </div>
+			                <input type="hidden" name="idCard_f">
+			                <div class="aui-col-xs-4" onclick="setUserPic('idCard_f')" id="idCard_f">
+			                    <img src="../image/car_fanmian.jpg">
+			                </div>
+			                <input type="hidden" name="idCard_s">
+			                <div class="aui-col-xs-4" onclick="setUserPic('idCard_s')" id="idCard_s" >
+			                    <img src="../image/car_shouchi.jpg">
+			                </div>
+	                    </div>
+	                </div>
+	            </li>	
+	            <li class="aui-list-item img-shangchuan">
+	                 <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label">
+	                     	店铺图片&nbsp;&nbsp;&nbsp;<span class="aui-font-size-12" style="color:#f85255;">(建议图片尺寸大小为 96*80)</span>
+	                    </div>
+	                    <div class="aui-list-item-input">
+	                    	<input type="hidden" name="storefrontImg">
+							<div class="aui-col-xs-4" onclick="setUserPic('storefrontImg')" id="storefrontImg">
+			                    <img src="../image/shangchuan.jpg">
+			                </div>
+			                <input type="hidden" name="storefrontImg1">
+			                <div class="aui-col-xs-4" onclick="setUserPic('storefrontImg1')" id="storefrontImg1">
+			                    <img src="../image/shangchuan.jpg">
+			                </div>
+			                <input type="hidden" name="storefrontImg2">
+			                <div class="aui-col-xs-4" onclick="setUserPic('storefrontImg2')" id="storefrontImg2" >
+			                    <img src="../image/shangchuan.jpg">
+			                </div>
+	                    </div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item img-shangchuan">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-label" style="display: block;">
+	                     	营业执照
+	                     	<!-- <div class="aui-pull-right" style="margin-right:0.5rem;">
+	                     		<div class="aui-btn aui-font-size-12" style="margin-right:0.25rem;">清除</div>
+	                     	</div> -->
+	                    </div>
+	                    <div class="aui-list-item-input img-shangchuan-input">
+							<input type="hidden" name="businessLicImg">
+							<div class="aui-col-xs-12" onclick="setUserPic('businessLicImg')" id="businessLicImg">
+			                    <img src="../image/shangchuan.jpg">
+			                </div>
+	                    </div>
+	                </div>
+	            </li>
+	        </ul>
+	    </div>
+	    <div class="aui-content geren-but" onclick="save()">
+	    	<div class="aui-btn aui-btn-block">确定</div>
+	    </div>
+	</body>
+	<script src="http://api.map.baidu.com/api?v=1.4&key=Lwk82G3NmE6BGfZsq59N0sVhf1a63dLb&callback=initialize" type="text/javascript"></script>
+	<script type="text/html" id="tpl_select">
+		
+		{{each shopClassify}}
+		<option value="{{$value.id}}" {{ if checkdId == $value.id}} selected {{/if}}>{{$value.classifyname}}</option>
+		{{/each}}
+	</script>
+	<script type="text/javascript">
+		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null;
+		var isIOS = false;
+		var saveFlag = false;
+	 	qySoftInit("../../static/qyScript/web/");
+		var userName = "";
+		//apicloud 准备完成
+
+		  	layui.use(['qyWin','qyForm','qyShop','template'], initpage);
+		  	
+
+
+		function initpage(){
+			var qyWin  = layui.qyWin;
+			var qyForm = layui.qyForm;
+
+			uiMediaScanner = api.require('UIMediaScanner');
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			// 引入图片浏览模块
+			imageBrowser = api.require('imageBrowser');
+			api.parseTapmode();
+
+			//getSHopClassify(0);
+			getUserShop();
+		}
+
+		function getSHopClassify(checkdId){
+			layui.qyForm.qyajax("/f/app/shopManage/shopClassifyList",{},function(data){
+				data['checkdId'] = checkdId;
+				//alert(JSON.stringify(data));
+				var html = template('tpl_select',data);
+				$("#select").html(html);
+			});
+		}
+		
+		function getbmap(){
+			var map = new BMap.Map("allmap");
+			var point = new BMap.Point(116.331398,39.897445);
+			map.centerAndZoom(point,12);
+
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r){
+				if(this.getStatus() == BMAP_STATUS_SUCCESS){
+						var mk = new BMap.Marker(r.point);
+						map.addOverlay(mk);
+						map.panTo(r.point);
+						var geoc = new BMap.Geocoder();    
+						geoc.getLocation(r.point, function(rs){
+						var addComp = rs.addressComponents;
+						var obj = addComp.province + ", " + addComp.city + ", " + addComp.district;
+						alert("您当前所在位置："+obj);
+						$("#address_position").val(obj);
+						$("#lon").val(r.point.lng);
+						$("#lat").val(r.point.lat);
+					}); 
+					
+				}
+				else {
+					alert('failed'+this.getStatus());
+				}        
+			},{enableHighAccuracy: true})	       
+
+		}
+
+		function getUserShop(){
+			layui.qyForm.qyajax("/f/app/shopManage/getUserShopInfo",{},function(data){
+				if(data.shopInfo.id){
+					if(data.shopInfo.shopStatus==2){
+						layui.qyWin.toast("申请已被驳回,请重新提交.");
+					}
+					$("#idCard_z").html('<img src="'+CONS_IMG_URL+data.shopInfo.idCardImg1+'">');
+					$("input[name='idCard_z']").val(data.shopInfo.idCardImg1);
+					$("#idCard_f").html('<img src="'+CONS_IMG_URL+data.shopInfo.idCardImg2+'">');
+					$("input[name='idCard_f']").val(data.shopInfo.idCardImg2);
+					$("#idCard_s").html('<img src="'+CONS_IMG_URL+data.shopInfo.idCardImg3+'">');
+					$("input[name='idCard_s']").val(data.shopInfo.idCardImg3);
+
+					$("#storefrontImg").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg+'">');
+					$("input[name='storefrontImg']").val(data.shopInfo.storefrontImg);
+
+					$("#storefrontImg1").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg1+'">');
+					$("input[name='storefrontImg1']").val(data.shopInfo.storefrontImg1);
+
+					$("#storefrontImg2").html('<img src="'+CONS_IMG_URL+data.shopInfo.storefrontImg2+'">');
+					$("input[name='storefrontImg2']").val(data.shopInfo.storefrontImg2);
+
+					$("#businessLicImg").html('<img src="'+CONS_IMG_URL+data.shopInfo.businessLicImg+'">');
+					$("input[name='businessLicImg']").val(data.shopInfo.businessLicImg);
+					$("#shopId").val(data.shopInfo.id);
+					$("#shopName").val(data.shopInfo.shopName);
+					$("#lon").val(data.shopInfo.addressX);
+					$("#lat").val(data.shopInfo.addressY);
+					$("#address").val(data.shopInfo.shopAddress);
+					$("#idCard").val(data.shopInfo.idCard);	
+					getSHopClassify(data.shopInfo.classifyId);
+					// $('#select').html('<option value="'+data.shopInfo.classifyId+'">'+data.shopInfo.classifyName+'</option>');
+					$("#mobile").val(data.shopInfo.mobile);
+					$("#remarks").val(data.shopInfo.remarks);
+				}else{
+					getSHopClassify(0);
+				}
+				
+			});
+		}
+
+		function save(){
+			var shopId = $("#shopId").val();
+			var shopName = $("#shopName").val();
+			var idCard =  $("#idCard").val();	
+			var classifyId = $('#select').val();
+			var mobile = $("#mobile").val();
+			var remarks = $("#remarks").val();
+			var idCardImg1 = $("input[name='idCard_z']").val();
+			var idCardImg2 = $("input[name='idCard_f']").val();
+			var idCardImg3 = $("input[name='idCard_s']").val();
+			var storefrontImg = $("input[name='storefrontImg']").val();
+			var storefrontImg1 = $("input[name='storefrontImg1']").val();
+			var storefrontImg2 = $("input[name='storefrontImg2']").val();
+			var businessLicImg = $("input[name='businessLicImg']").val();
+			var address = $("#address").val();
+			var lon = $("#lon").val();;
+			var lat = $("#lat").val();
+			if(!shopName || !idCard || !classifyId || !mobile || !remarks || !lon || !address){
+				layui.qyWin.toast("请将信息填写完整!");
+				return ;
+			}
+			if(!idCardImg1 || !idCardImg2 || !idCardImg3 || !storefrontImg1 || !businessLicImg ||!storefrontImg2 ||!storefrontImg){
+				layui.qyWin.toast("所有图片必须上传!");
+				return ;
+			}			
+			if(saveFlag){
+				return;
+			}
+			var parm = {
+				idCardImg1:idCardImg1,
+				idCardImg2:idCardImg2,
+				idCardImg3:idCardImg3,
+				businessLicImg:businessLicImg,
+				storefrontImg:storefrontImg,
+				storefrontImg1:storefrontImg1,
+				storefrontImg2:storefrontImg2,
+				shopName: shopName,
+				addressX: lon,
+				addressY: lat,
+				shopAddress: address,
+				idCard :idCard,
+				classifyId :classifyId,
+				mobile :mobile,
+				remarks : remarks,
+				id: shopId
+			}
+			saveFlag = true;
+			layui.qyForm.qyajax("/f/app/shopManage/saveUserShop",parm,function(data){
+				layui.qyWin.toast("申请成功,请耐心等待审核!");
+				setTimeout("layui.qyWin.closeWin(true)",1000);
+			},function(res){
+				saveFlag = false;
+			});
+		}
+
+
+
+			function setUserPic(divName) {
+			api.actionSheet({
+				title : '选择图片来源',
+				buttons : ['优雅自拍', '浏览相册']
+			}, function(ret, err) {
+				var index = ret.buttonIndex;
+				switch(index) {
+					// 拍照
+					case 1:
+						// 打开拍照
+						api.getPicture({
+							sourceType : "camera",
+							encodingType : "jpg",
+							destinationType : "url",
+							mediaValue : "pic",
+							quality : 50,
+							saveToPhotoAlbum : true
+						}, function(ret, err) {
+							if (ret && ret.data) {
+								// 拍照返回的本地路径
+								var returnUrl = ret.data;
+								// 图片压缩
+								imgCompress(returnUrl, 0.5, getExt(returnUrl), function(compressImg) {
+									uploadFile(CONS_AJAX_URL + '/f/app/shopManage/upload', compressImg, function(serverImg) {
+										$("#"+divName).html('<img src="'+CONS_IMG_URL+serverImg+'">');
+										$("input[name='"+divName+"']").val(serverImg);
+									});
+								});
+							} else {
+								api.toast({
+									msg : '没有选择，或者选择出错'
+								});
+							}
+						});
+						break;
+					// 打开图片选择器
+					case 2:
+						uiMediaScanner.open({
+							type : 'picture',
+							column : 4,
+							classify : true,
+							max : 1,
+							sort : {
+								key : 'time',
+								order : 'desc'
+							},
+							texts : {
+								stateText : '已选*项',
+								cancelText : '取消',
+								finishText : '完成'
+							},
+							styles : {
+								bg : '#fff',
+								mark : {
+									icon : '',
+									position : 'bottom_left',
+									size : 20
+								},
+								nav : {
+									bg : '#b23e4b',
+									stateColor : '#fff',
+									stateSize : 18,
+									cancelBg : 'rgba(0,0,0,0)',
+									cancelColor : '#fff',
+									cancelSize : 18,
+									finishBg : 'rgba(0,0,0,0)',
+									finishColor : '#fff',
+									finishSize : 18
+								}
+							}
+						}, function(ret) {
+							if (ret) {
+                                if(!ret.list){
+                                    return;
+                                }
+								for (var i = 0; i < ret.list.length; i++) {
+									var selectImg = ret.list[i];
+									// 获取图片的路径
+									var selectimgPath = selectImg.path;
+									var selectimgThumbPath = selectImg.thumbPath;
+									// IOS需要将虚拟路径转换为本地路径才可以压缩
+									if (isIOS) {
+										// 转换为真实路径
+										uiMediaScanner.transPath({
+											path : selectimgPath
+										}, function(transObj) {
+											// 图片压缩
+											imgCompress(transObj.path, 0.5, selectImg.suffix, function(compressImg) {
+												uploadFile(CONS_AJAX_URL + "/f/app/shopManage/upload", compressImg, function(serverImg) {
+													$("#"+divName).html('<img src="'+CONS_IMG_URL+serverImg+'">');
+													$("input[name='"+divName+"']").val(serverImg);
+												});
+											});
+										});
+									} else {
+										// 图片压缩
+										imgCompress(selectimgPath, 0.5, selectImg.suffix, function(compressImg) {
+											uploadFile(CONS_AJAX_URL + "/f/app/shopManage/upload", compressImg, function(serverImg) {
+												//alert(CONS_IMG_URL+serverImg);
+												$("#"+divName).html('<img src="'+CONS_IMG_URL+serverImg+'">');
+												$("input[name='"+divName+"']").val(serverImg);
+											}, "");
+										});
+									}
+								}
+							}
+						});
+						break;
+				}
+			});
+		}
+	
+
+		</script>
+</html>

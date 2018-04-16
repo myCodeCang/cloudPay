@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>线下转账</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body> 
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">线下转账</div>
+			<div class="aui-pull-right"></div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content transfer">
+			<p>银行名称:&nbsp;<span id="bankName"></span></p>
+			<p>账户名称:&nbsp;<span id="userbankName"></span></p>
+			<!-- <p>开户支行:&nbsp;<span>农业银行</span></p> -->
+			<p>卡号:&nbsp;<span id="bankNumber"></span></p>
+			<p class="transfer-p" >温馨提示:&nbsp;<span id="message"></span></p>
+			<!-- <div class="aui-btn">更换账号</div> -->
+		</div>
+	<!-- 	<div class="aui-content aui-margin-b-10 transfer-one">
+		    <ul class="aui-list aui-form-list">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    转账银行
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <select>
+		                        <option>中国银行</option>
+		                        <option>农业银行</option>
+		                        <option>工商银行</option>
+		                    </select>
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    户名
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <input type="text" placeholder="请填写银行卡户名">
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    卡号
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <input type="text" placeholder="填写卡号">
+		                </div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    转账金额
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <input type="text" placeholder="填写转账金额">
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+		</div>
+		<div class="aui-content aui-margin-b-10 transfer-two">
+			 <ul class="aui-list">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-title">加急到账</div>
+		                <div class="aui-list-item-title">1.0加急手续费,当天到账</div>
+		                <div class="aui-btn aui-pull-right urgent">加急</div>
+		                <div class="aui-btn aui-pull-right transfer-two-but">取消</div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item" id="account">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-title">到账手续费</div>
+		            </div>
+		        </li>
+		        <li class="aui-list-item" id="account-one">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-title">到账金额</div>
+		            </div>
+		        </li>
+		    </ul>    
+		</div>
+		<div class="aui-content transfer-three">
+			 <ul class="aui-list aui-form-list">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-label">
+		                    上传凭证
+		                </div>
+		                <div class="aui-list-item-input">
+		                    <input type="file" style="opacity: 0;">
+		                    <div class="picture">上传银行凭证</div>
+		                </div>
+		            </div>
+		        </li>
+		    </ul>    
+		</div>
+		<div class="aui-content transfer-four">
+			<p>银行转账需转账到银行卡后，由财务充值到您的现金账户，需3个工作日处理，节假日顺延，如有疑问，请联系客服</p>
+		</div>
+		<div class="aui-content transfer-but">
+			<div class="aui-btn aui-btn-block">提交</div>
+		</div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div> -->
+	</body>
+	<script src="../css/script/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+//			apiready = function(){
+				  layui.use(['qyWin','qyForm','template'], initpage);
+//			};
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				
+				
+				loadData();
+
+			}
+
+			function loadData(){
+				
+				layui.qyForm.qyajax("/f/app/userinfo/userChargeBank",{},function(data){
+					if(data.userChargeBank.length < 1){
+						layui.qyWin.toast("暂不支持线下转账!");
+						setTimeout("layui.qyWin.closeWin(true)",1000);
+					}
+					$("#bankName").html(data.userChargeBank[0].bankName);
+					$("#userbankName").html(data.userChargeBank[0].userBankName);
+					$("#bankNumber").html(data.userChargeBank[0].userBankNumber);
+					$("#message").html(data.userChargeBank[0].commt);
+				});
+			}
+	</script>
+</html>

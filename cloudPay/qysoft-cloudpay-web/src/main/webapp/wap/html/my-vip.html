@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的会员</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">我的会员</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content aui-margin-b-10">
+		    <ul class="aui-list">
+		        <li class="aui-list-item aui-list-item-middle">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-title">您的分享人</div>
+		                <div class="aui-pull-right" id="parentName"></div>
+		            </div>    
+		        </li>
+		    </ul>
+		</div>    
+		<div class="aui-content">
+		    <ul class="aui-list">
+		        <li class="aui-list-item aui-list-item-middle">
+		            <div class="aui-list-item-inner">
+		                <div class="aui-list-item-title">您已分享</div>
+		                <div class="aui-pull-right" id="hasShare">0</div>
+		            </div>    
+		        </li><a href="my-huiyuan.html?userLevelId=1">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner aui-list-item-arrow">
+		                <div class="aui-list-item-title">普通会员</div>
+		                <div class="aui-pull-right" id="puTong">0</div>
+		            </div>
+		        </li></a>
+		        <a href="my-huiyuan.html?userLevelId=2">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner aui-list-item-arrow">
+		                <div class="aui-list-item-title">正式会员</div>
+		                <div class="aui-pull-right" id="zhengShi">0</div>
+		            </div>
+		        </li></a>
+		        <a href="my-huiyuan.html?userLevelId=3">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner aui-list-item-arrow">
+		                <div class="aui-list-item-title">VIP会员</div>
+		                <div class="aui-pull-right" id="vip">0</div>
+		            </div>
+		        </li></a>
+		        <a href="my-huiyuan.html?isShop=1">
+		        <li class="aui-list-item">
+		            <div class="aui-list-item-inner aui-list-item-arrow">
+		                <div class="aui-list-item-title" >联营商家</div>
+		                <div class="aui-pull-right" id="shopUser">0</div>
+		            </div>
+		        </li></a>
+		    </ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','layer','qyShop'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+
+				loadData();
+
+			}
+
+			
+
+			function loadData(hdProcess){
+
+				layui.qyForm.qyajax("/f/app/userinfo/userManager",{},function(data){
+						var puTong = "0";
+						var zhengShi = "0";
+						var vip = "0";
+						var shopUser = "0";
+						for(var i=0 ; i<data.fenXiangNum.count ; i++){
+							if(data.fenXiangNum.list[i].userLevelId == "1"){
+								puTong ++;
+							};
+							if(data.fenXiangNum.list[i].userLevelId == "2"){
+								zhengShi ++;
+							};
+							if(data.fenXiangNum.list[i].userLevelId == "3"){
+								vip ++;
+							};
+							if(data.fenXiangNum.list[i].isShop == "1"){
+								shopUser ++;
+							};
+
+						}
+						$("#parentName").html(data.parentName);
+						$("#hasShare").html(data.fenXiangNum.count);
+						$("#puTong").html(puTong);
+						$("#zhengShi").html(zhengShi);
+						$("#vip").html(vip);
+						$("#shopUser").html(shopUser);
+
+				},function(){},{sync:hdProcess});
+			}
+			//刷新页面方法, closeWin(true) 回调使用
+			function reload(){
+				initpage();
+			}
+
+			
+	</script>
+</html>

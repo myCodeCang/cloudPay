@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>丝路明细</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title">丝路明细</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content asset">
+			<ul class="aui-list aui-media-list" id="temp-chargeLog">
+		      
+		    </ul>    
+		</div>
+		<div class="jiazai-box aui-content"></div>
+	</body>
+
+	<script id="tpl-chargeLog" type="text/html">
+		{{each userAccountchange.list}}  
+				{{if $value.changeType!=12}}
+		         <li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <div class="aui-list-item-title">{{$value.commt}}</div>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                    	{{$value.createDate}}
+		                    </div>
+		                     {{if $value.beforeMoney < $value.afterMoney}} 
+		                    <span class="asset-jia">+ {{$value.changeMoney}}</span>
+		                    {{else if $value.beforeMoney > $value.afterMoney}} 
+		                    <span class="asset-jian"> {{$value.changeMoney}}</span>
+		                    {{/if}}   
+		                </div>
+		            </div>
+		        </li>
+		        {{/if}}
+		{{/each}}
+		
+	</script>
+	
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+			
+
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','menudown'], initpage);
+
+
+			
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+
+				 // var menudown = layui.menudown;
+				 // menudown.init(2,menuDownSelect);
+
+				qyForm.pageajax(loadData,{
+					"pageNo":"1",
+					"pageSize":"20",
+					"moneyType":"3"
+				});
+			}
+			
+
+			function loadData(param,callback){
+
+				layui.qyForm.qyajax("/f/app/userinfo/userAccountChange",param,function(data){
+						var pageData = data.userAccountchange;
+						var html = template('tpl-chargeLog', data);
+						$("#temp-chargeLog").append(html);
+
+						//分页回调结束处理方法, 传入的参数必须正确
+						if(callback){
+							callback(pageData);
+						}
+				});
+			}
+
+
+			//menu选择回调事件
+			// function menuDownSelect(text,val){
+			// 	var param = val.split("_");
+			// 	if(param[0] == "type"){
+			// 		$("#temp-chargeLog").html("");
+					
+			// 			type = param[1];
+				
+			// 	}
+
+			// 	if(param[0] == "time"){
+			// 		$("#temp-chargeLog").html("");
+					
+					
+			// 			date = param[1];
+
+			// 	}
+				
+			// 	layui.qyForm.pageajax(loadData,{
+			// 			"pageNo":"1",
+			// 			"pageSize":"10",
+			// 			"changeType" : type,
+			// 			"date" : date
+			// 		});
+			// }
+	</script>
+	
+</html>

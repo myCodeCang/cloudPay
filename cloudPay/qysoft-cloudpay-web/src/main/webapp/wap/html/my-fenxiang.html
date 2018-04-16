@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的分享</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+    	<script type="text/javascript" src="../css/script/jquery.min.js"></script>
+    	<script type="text/javascript" src="../css/script/jquery.qrcode.min.js"></script>
+	</head>
+	<body  class="bg-fff">
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">我的分享</div>
+			<!--<a class="aui-pull-right aui-btn" onclick="fenxiang()">-->
+		        <!--<span class="aui-iconfont aui-icon-share"></span>-->
+		    <!--</a>-->
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content fenxiang">
+			<span class="fenxiang-name" id="userName">分享码&nbsp;001485</span>
+			<div id="code"></div>
+			<span class="sp-one">扫一扫上面的二维码,有惊喜哦!</span>
+			<!-- <p>http://app.ebhtec.com/register.aspx?id=15234490993</p> -->
+		</div>
+		<!-- <div class="aui-content fenxiang-but" onclick="copy()">
+			<div class="aui-btn aui-btn-block">复制链接</div>
+		</div> -->
+	</body>
+	<script type="text/javascript">
+			qySoftInit("../../static/qyScript/web/");
+
+
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				loadData();
+
+			}
+
+			function loadData(){
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+					$("#code").qrcode({ 
+						render: "table", //table方式 
+						width: 200, //宽度 
+						height:200, //高度 
+						text: CONS_AJAX_URL+"/f/register?tj="+data.user.userName
+					});
+					$("#url").html(CONS_AJAX_URL+ "/f/register?tj=" + data.user.userName);
+				});
+                layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+                    $("#userName").html("分享ID: "+data.user.userName);
+                });
+			}
+
+
+			function copy(){
+				// var paste = api.require('pasteboard');
+				// var param = { value: 'Hello paste' };
+				// paste.paste(param, function(ret, err) {
+				//     if (ret.status) {
+				//         api.alert({
+				//             title: '返回信息',
+				//             msg: 'statues:' + ret.status,
+				//             buttons: ['确定']
+				//         }, function(ret, err) {});
+				//     } else {
+				//         api.alert({
+				//             title: '返回信息',
+				//             msg: 'msg:' + ret.msg + 'code:'+err.code,
+				//             buttons: ['确定']
+				//         }, function(ret, err) {});
+				//     }
+				// });
+
+				// var url = document.getElementById("url").value;
+ 			// 	window.clipboardData.setData("Text",url);
+
+				//alert("复制成功!");
+			}
+	
+	</script>
+</html>

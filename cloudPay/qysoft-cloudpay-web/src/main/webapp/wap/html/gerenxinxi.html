@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>个人信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body> 
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">个人信息</div>
+		</header>
+		<div class="height-one"></div>
+		<section class="aui-content personal-one">
+	        <ul class="aui-list">
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">会员名称</div>
+	                    <div class="aui-list-item-right" id="userName"></div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">真实姓名</div>
+	                    <div class="aui-list-item-right" id="trueName"></div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">用户等级</div>
+	                    <div class="aui-list-item-right" id="userLevel"></div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item" id="proxyLevelShow()">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">代理级别</div>
+	                    <div class="aui-list-item-right" id="proxyLevel"></div>
+	                </div>
+	            </li>
+	            <a href="my-fenxiang.html">
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">分享码</div>
+	                    <div class="aui-list-item-right"><i class="pic-gerenerwei"></i></div>
+	                </div>
+	            </li></a>
+	        </ul>    
+	        <ul class="aui-list aui-margin-t-10">    
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">地区</div>
+	                    <div class="aui-list-item-right" id="area">陕西省西安市雁塔区摩尔中心</div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">手机号</div>
+	                    <div class="aui-list-item-right" id="phoneNumber">1888888888</div>
+	                </div>
+	            </li>
+	            <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title">注册时间</div>
+	                    <div class="aui-list-item-right" id="createDate">2017/7/3&nbsp;18:52:59</div>
+	                </div>
+	            </li>
+	        </ul>
+	    </section>
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				
+				
+				loadData();
+
+			}
+
+			function loadData(){
+				
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+
+					if(data.user.activeStatus == 1){
+						if(data.type==1){
+						$("#proxyLevel").html("国级代理");
+					}else if(data.type==2){
+						$("#proxyLevel").html("省级代理");
+					}else if(data.type==3){
+						$("#proxyLevel").html("市级代理");
+					}else if(data.type==4){
+						$("#proxyLevel").html("区县级代理");
+					}
+					}else {
+						$("#proxyLevel").html("暂不是代理");
+					}
+
+					
+					$("#area").html(data.area);
+					$("#userName").html(data.user.userName);
+					//$("#area").html(data.area);
+					$("#trueName").html(data.user.trueName);
+					$("#phoneNumber").html(data.user.mobile);
+					$("#createDate").html(data.user.createDate);
+					$("#userLevel").html(data.user.userLevel.levelName);
+				});
+			}
+	</script>
+</html>

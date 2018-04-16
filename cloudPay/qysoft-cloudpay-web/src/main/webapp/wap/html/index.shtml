@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>丝路宝</title>
+		<link rel="stylesheet" type="text/css" href="../css/swiper/swiper.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+    	<script src="../../static/qyScript/web/other/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    	<link rel="stylesheet" type="text/css" href="../css/aui/aui-pull-refresh.css" />
+	</head>
+	<!--#include virtual="common/mainWin.html" -->
+	<body> 
+		<header class="aui-bar aui-bar-nav home">
+			<!-- 首页 -->
+			<div class="aui-title">丝路宝</div>
+			<a class="aui-pull-right aui-btn home-saosao" href="my-fenxiang.html"">
+				<i class="pic-gerenerweima"></i>
+			</a>
+			<!--<a class="aui-pull-right aui-btn home-saosao" href="#" onclick="saoyisao()">-->
+				<!--<i class="pic-saosao"></i>-->
+			<!--</a>-->
+			<!--<a class="aui-pull-right aui-btn home-erweima" href="my-fenxiang.html">-->
+				<!--<i class="pic-gerenerweima"></i>-->
+			<!--</a>-->
+		</header>
+		<div class="height-one"></div>
+		<div id="contentBody">
+		<div class="aui-content" style="margin-top:-2.5px;">
+			<div class="swiper-container">
+		        <div class="swiper-wrapper"  id="photo">
+		           <!--  <div class="swiper-slide"><img src="../image/yun1.jpg"></div>
+		            <div class="swiper-slide"><img src="../image/yun2.jpg"></div> -->
+		        </div>
+		        <div class="swiper-pagination"></div>
+		    </div>
+		</div>
+		<div class="aui-content home-one">
+			<div class="aui-grid">
+				<div class="aui-row" >
+					<div class="aui-col-5" onclick="charge()">
+						<i class="pic-chongzhi"></i>
+						<p>充值</p>
+					</div>
+					<a href="tixian.html">
+						<div class="aui-col-5">
+							<i class="pic-tixian"></i>
+							<p>提现</p>
+						</div></a>
+					<a href="zhuanzhang.html">
+						<div class="aui-col-5">
+							<i class="pic-zhuanzhang"></i>
+							<p>转账</p>
+						</div></a>
+					<a href="xianxia-zhuanzhang.html">
+						<div class="aui-col-5">
+							<i class="pic-zhifu"></i>
+							<p>线下转账</p>
+						</div></a><div class="aui-col-5" onclick="renzheng()">
+					<i class="pic-renzheng"></i>
+					<p>商家认证</p>
+				</div>
+
+				</div>
+				<div class="aui-row">
+					<a href="dangmianfu.html">
+						<div class="aui-col-5">
+							<i class="pic-danmianfu"></i>
+							<p>当面付</p>
+						</div></a>
+					<a href="yuedetail.html">
+						<div class="aui-col-5">
+							<i class="pic-jifen"></i>
+							<p>丝路明细</p>
+						</div></a>
+					<a href="destoon-upgrade.html">
+						<div class="aui-col-5">
+							<i class="pic-shengji"></i>
+							<p>会员升级</p>
+						</div></a>
+					<a href="my-vip.html">
+						<div class="aui-col-5">
+							<i class="pic-guanli"></i>
+							<p>会员管理</p>
+						</div>
+					</a>
+					<a href="jinqinqidai.html">
+						<div class="aui-col-5">
+							<i class="pic-gengduo"></i>
+							<p>更多</p>
+						</div></a>
+				</div>
+			</div>
+		</div>
+		<div class="aui-content aui-margin-t-10 jinru">
+			<a id="shop"><img src="../image/jinru.jpg"/>
+			<div class="aui-btn">点击进入</div></a>
+		</div>
+			<div class="aui-content choujiang aui-margin-t-10">
+				<div class="aui-grid">
+					<div class="aui-row">
+						<a href="jinqinqidai.html">
+							<div class="aui-col-xs-6 choujiang-one">
+								<img src="../image/tu1.png">
+							</div>
+							<div class="aui-col-xs-6 choujiang-two">
+								<div class="aui-grid">
+									<div class="aui-row">
+										<div class="aui-col-xs-12">
+											<img src="../image/tu2.png">
+										</div>
+									</div>
+									<div class="aui-row">
+										<div class="aui-col-xs-12">
+											<img src="../image/tu3.png">
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		<div class="aui-content aui-margin-t-10 tongji">
+			<h3>数据统计</h3>
+			<div class="aui-grid">
+				<div class="aui-row">
+					<div class="aui-col-xs-6">
+						<p>上一天新增积分总量</p>
+						<p id="data_score">0</p>
+					</div>
+					<div class="aui-col-xs-6">
+						<p>上一天新增丝路总量</p>
+						<p id="data_silu">0</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="aui-content aui-margin-t-10 zhanghujinge">
+			<h3>账户金额</h3>
+			<div class="aui-grid">
+				<div class="aui-row">
+					<div class="aui-col-xs-6">
+						<h3>积分</h3>
+						<p id="score">0</p>
+					</div>
+					<div class="aui-col-xs-6">
+						<h3>现金余额(元)</h3>
+						<p class="red" id="money">0</p>
+					</div>
+				</div>	
+				<div class="aui-row">	
+					<div class="aui-col-xs-6">
+						<h3>丝路</h3>
+						<p id="money2">0</p>		
+					</div>
+					<div class="aui-col-xs-6">
+						<div>
+							<div class="aui-btn" onclick="charge()">充值</div>
+							<div class="aui-btn"><a href="tixian.html">提现</a></div>
+						</div>
+						<a href="zichan.html"><p>查看明细</p></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="aui-content zhidao aui-margin-t-10">
+			<h3>丝路知道</h3>
+			<ul class="aui-list" id="temp-webArticle">  
+	       </ul>
+		</div>
+		<div class="jiazai-box aui-content"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		<div class="blank_15"></div>
+		
+		</div>
+	</body>
+	<script id="tpl-webArticle" type="text/html">
+		{{each article.list}}
+		   	<a href="gongdao-detail.html?aid={{$value.id}}&title={{$value.title}}&date={{$value.createDate}}">
+                <li class="aui-list-item">
+	                <div class="aui-list-item-inner">
+	                    <div class="aui-list-item-title aui-ellipsis-1">{{$value.title | goodsNameFormat 15}}</div>
+	                    <div class="aui-list-item-right">{{$value.createDate | dateFormat }}</div>
+	                </div>
+	            </li>
+		    </a>
+		{{/each}}
+		
+	</script>
+	<script type="text/javascript">
+		var pageFlag = false;
+//	 	qySoftInit("../../static/qyScript/web/");
+			var userName = "";
+			var userLevel = 0;
+			//apicloud 准备完成
+
+			layui.use(['qyWin','qyForm','qyShop','template','layer'], initpage);
+
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+				photo();
+			  	loadData();
+			  	dataReport();
+
+				$("#shop").attr("href",CONS_QY_SHOP_URL+"/app/index.php?i=27&c=entry&m=ewei_shopv2&do=mobile&isback=1");
+
+			  	qyForm.pageajax(gonggao,{
+					"pageNo":"0",
+					"pageSize":"5",
+					"categoryId":"43361"
+				});
+				//下拉刷新
+//			 	qyWin.setRefreshHeaderAUI($("#contentBody")[0],function(){
+//			 		pageFlag = true;
+//					loadData(true);
+//			 	});
+			  
+			}
+			//刷新页面方法, closeWin(true) 回调使用
+			function reload(){
+				loadData(true);
+				dataReport();
+			}
+
+			function dataReport(){
+				layui.qyForm.qyajax("/f/app/userinfo/dataReport",{},function(data){
+						$("#data_score").html(data.score);
+						$("#data_silu").html(data.silu);
+						
+				});
+			}
+
+			function saoyisao(){
+ 
+					var FNScanner = api.require('FNScanner');
+					FNScanner.openScanner({
+					    autorotation: true
+					}, function(ret, err) {
+						if(ret.content){
+					    layui.qyWin.win("zhuanzhang","go-zhuanzhang.html?"+ret.content,"");
+					 }
+					});
+				}
+
+			function loadData(hdProcess){
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+						userName = data.user.userName;
+						userLevel = data.user.userLevelId;
+						$("#money").html(data.user.money);
+						$("#score").html(data.user.score);
+						$("#money2").html(data.user.money2);
+				},function(){},{sync:hdProcess});
+			}
+
+
+			function renzheng(){
+                    layui.layer.open({
+                        content: '如需使用该功能,请下载APP',
+                        btn: ['确认']
+                    });
+//				}else{
+//					layui.qyWin.win("viprenzheng","vip-renzheng.html",'');
+//				}
+
+			}
+
+
+
+			function shopWin(shopid) {
+		        layui.qyShop.openShopWin(shopid);
+		    }
+
+
+		    function photo(){
+			    	layui.qyForm.qyajax("/f/app/userinfo/getPhotoBykey",{keyword:"index_photo"},function(data){
+			    		//alert(JSON.stringify(data));
+			    		for(var i = 0;i < data.photoList.length; i++){
+			    			var img = CONS_IMG_URL + data.photoList[i].photo;
+                            var url = data.photoList[i].url;
+                            $("#photo").append('<div class="swiper-slide"><a href="'+url+'"><img src="'+img+'"></a></div>');
+			    			//alert(img);
+			    		}
+						var swiper = new Swiper('.swiper-container', {
+							pagination: '.swiper-pagination',
+							paginationClickable: true,
+							autoplay:3000,
+							loop:true,
+							autoplayDisableOnInteraction : false
+						});
+					});
+			    }
+
+			function charge(){
+				layui.qyWin.win("Recharge","/f/payment/pay/recharge?beanName=rechargeService&methodName=updateUserMoney&userName=" + userName, {});
+			}
+
+			 function gonggao(param,callback){
+		
+		    	layui.qyForm.qyajax("/f/webArticle/list",param,function(data){
+						var pageData = data.article;
+						var html = template('tpl-webArticle', data);
+						if(pageFlag){
+							$("#temp-webArticle").html(html);
+						}else{
+							$("#temp-webArticle").append(html);
+						}
+						pageFlag = false;
+						if(callback){
+						callback(pageData);
+						}
+				});
+		    }
+
+	</script>
+</html>

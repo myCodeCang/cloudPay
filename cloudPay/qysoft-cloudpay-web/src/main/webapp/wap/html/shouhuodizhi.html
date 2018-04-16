@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>收货地址</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body class="bg-fff">
+		<header class="aui-bar aui-bar-nav home" id="header">
+		    <a class="aui-pull-left aui-btn back" href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title" id="title"></div>
+		</header>
+		<div class="hei-len"></div>
+		
+		<div   id="temp-address">
+			
+		</div>
+		<div class="jiazai-box aui-content"></div>
+			<div class="blank_20"></div>
+			<div class="blank_20"></div>
+			<div class="blank_20"></div>
+		<div class="aui-content card-but">
+		<a href="xinzeng-dizhi.html">
+			<div class="aui-btn aui-btn-block"><i class="aui-iconfont aui-icon-plus"></i>新增收货地址</div>
+			</a>
+		</div>
+	</body>
+	<script id="tpl-address" type="text/html">
+		{{if userAddressList.count == 0}}
+			<div class="aui-content shdz">
+			<img src="../image/dizhi.png">
+		</div>
+		{{else}}
+		{{each userAddressList.list}}
+		    <div class="aui-content site aui-margin-b-10" >
+			<ul class="aui-list aui-media-list" onclick="dingdan({{$value.id}})">
+		        <li class="aui-list-item">
+		            <div class="aui-media-list-item-inner">
+		                <div class="aui-list-item-inner">
+		                    <div class="aui-list-item-text">
+		                        <span class="names">收货人: {{$value.trueName}}</span>
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                      	地址: {{$value.address}}
+		                    </div>
+		                    <div class="aui-list-item-text aui-ellipsis-1">
+		                      	电话: {{$value.mobile}}
+		                    </div>
+		                </div>
+		            </div>
+		        </li>
+		    </ul>
+		   	<div class="aui-card-list" id="edits">
+	            <div class="aui-pull-right" onclick="deleteUserAddress({{$value.id}})"><i class="aui-iconfont aui-icon-trash"></i>删除</div>
+	            <div class="aui-pull-right"><i class="aui-iconfont aui-icon-edit" ></i><a href="xinzeng-dizhi.html?id={{$value.id}}">编辑</a></div>
+		    </div>
+		</div>
+		{{/each}}
+		{{/if}}
+		<div class="blank_20"></div>
+	</script>
+
+	<script type="text/javascript">
+		var select = 0;
+		var num = 0;
+		var	applyId = 0;
+		var groupId = 0 ;
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','layer'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				var qyForm = layui.qyForm;
+				
+				if(qyForm.GetQueryString('applyId')==null && qyForm.GetQueryString('groupId')==null){
+					$("#title").html("收货地址列表");
+				}else{
+					$("#title").html("选择收货地址");
+					
+					if(qyForm.GetQueryString('groupId') !=null){
+						groupId = qyForm.GetQueryString('groupId');
+					}else{				
+						applyId = qyForm.GetQueryString('applyId');
+						num = qyForm.GetQueryString('num');
+					}
+				}
+				layui.qyForm.pageajax(loadData,{
+					"pageNo":"1",
+					"pageSize":"10"
+				});
+
+			}
+
+			function loadData(param,callback){
+
+				layui.qyForm.qyajax("/f/app/userinfo/userAddressList",param,function(data){
+						
+						//alert(JSON.stringify(data));
+						var pageData = data.userAddressList;
+						var html = template('tpl-address', data);
+						$("#temp-address").append(html);
+						if(callback){
+							callback(pageData);
+						}
+						
+				});
+			}
+			
+			function deleteUserAddress(id){
+
+				 layui.layer.open({
+	   				 	content: '您确定要删除吗？'
+	    				,btn: ['确认', '取消']
+	    				,yes: function(index){	     			 		
+	    					layui.qyForm.qyajax("/f/app/userinfo/deleteUserAddress",{id : id},function(data){
+								layui.qyWin.toast(data.info);
+								reload();
+							});
+							layui.layer.close(index);
+						}
+				 });		
+			}
+
+			function dingdan(addressId){
+				if(applyId != 0){
+
+					 layui.qyWin.frame("rengoudingdan","rengou-dingdan.html?num="+num+"&applyId="+applyId+"&addressId="+addressId,{});
+				}
+				if(groupId != 0){
+					 layui.qyWin.frame("tihuoyemian","tihuoyemian.html?groupId="+groupId+"&addressId="+addressId,{});
+				}
+			}
+
+			//刷新页面方法, closeWin(true) 回调使用
+ 			function reload(){
+ 				$("#temp-address").html("");
+   				setTimeout("initpage()",300);
+  			}
+
+	</script>
+</html>

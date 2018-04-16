@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>收钱</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+		<script type="text/javascript" src="../css/script/jquery.min.js"></script>
+		<script type="text/javascript" src="../css/script/jquery.qrcode.min.js"></script>
+    	<style type="text/css">
+    		.layui-m-layerchild h3{height:50px;line-height: 50px;background:#F5F5F5;font-weight:bold;font-size:15px;}
+			.layui-m-layercont{padding: 20px 40px;}
+
+    	</style>
+	</head>
+	<body class="bg-purple">
+		<header class="aui-bar aui-bar-nav home">
+			 <a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">收钱</div>
+		</header>
+		<div class="height-one"></div>
+		<div class="aui-content shouqian">
+			<span><i class="aui-iconfont aui-icon-mobile aui-font-size-18"></i>&nbsp;个人收钱</span>
+			<div class="aui-content-padded shouqian-one">
+				<p >扫一扫，向我付钱</p>
+				<div id="code"></div>
+				<!--<img src="../image/erwei.jpg" id="img">-->
+				<h3 id="show" style="display: none">￥<span id="setMoneyOne">0</span></h3>
+				<p class="setmoney"><a onclick="tan()">设置金额</a></p>
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+			
+			var contents = null;
+			var userName = null;
+			var mobile = null;
+			var money = 0;
+			var flag =0;
+			var isShop = null;
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template','layer'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+
+				if($("#setMoneyOne").html()!=0){
+					$("#show").show();
+				}
+				loadData(); 
+			}
+			
+			function tan(){
+				layui.layer.open({
+				    title: [
+				      '请输入收款金额'
+				    ]
+				    ,content: '<div class="odiv-input"><input onKeyUp="amount(this)"  onBlur="overFormat(this)"  type="text" id="setMoneyTwo"   placeholder="请输入收款金额"/></div>',
+				    btn: ['确认','取消'],
+				    yes: function(index, layero){
+				    	$("#setMoneyOne").html($("#setMoneyTwo").val());
+				    	money = $("#setMoneyTwo").val();
+				    	initpage();
+				    	layui.layer.close(index);
+			          },
+				  });
+			}
+
+			function amount(th){
+		        var regStrs = [
+		            ['^0(\\d+)$', '$1'], //禁止录入整数部分两位以上，但首位为0
+		            ['[^\\d\\.]+$', ''], //禁止录入任何非数字和点
+		            ['\\.(\\d?)\\.+', '.$1'], //禁止录入两个以上的点
+		            ['^(\\d+\\.\\d{2}).+', '$1'] //禁止录入小数点后两位以上
+		        ];
+		        for(var i=0; i<regStrs.length; i++){
+		            var reg = new RegExp(regStrs[i][0]);
+		            th.value = th.value.replace(reg, regStrs[i][1]);
+		        }
+		    }
+
+		    function overFormat(th){
+			        var v = th.value;
+			        if(v === ''){
+			            v = '0.00';
+			        }else if(v === '0'){
+			            v = '0.00';
+			        }else if(v === '0.'){
+			            v = '0.00';
+			        }else if(/^0+\d+\.?\d*.*$/.test(v)){
+			            v = v.replace(/^0+(\d+\.?\d*).*$/, '$1');
+			            v = inp.getRightPriceFormat(v).val;
+			        }else if(/^0\.\d$/.test(v)){
+			            v = v + '0';
+			        }else if(!/^\d+\.\d{2}$/.test(v)){
+			            if(/^\d+\.\d{2}.+/.test(v)){
+			                v = v.replace(/^(\d+\.\d{2}).*$/, '$1');
+			            }else if(/^\d+$/.test(v)){
+			                v = v + '.00';
+			            }else if(/^\d+\.$/.test(v)){
+			                v = v + '00';
+			            }else if(/^\d+\.\d$/.test(v)){
+			                v = v + '0';
+			            }else if(/^[^\d]+\d+\.?\d*$/.test(v)){
+			                v = v.replace(/^[^\d]+(\d+\.?\d*)$/, '$1');
+			            }else if(/\d+/.test(v)){
+			                v = v.replace(/^[^\d]*(\d+\.?\d*).*$/, '$1');
+			                ty = false;
+			            }else if(/^0+\d+\.?\d*$/.test(v)){
+			                v = v.replace(/^0+(\d+\.?\d*)$/, '$1');
+			                ty = false;
+			            }else{
+			                v = '0.00';
+			            }
+			        }
+			        th.value = v;
+			    }
+
+
+
+
+			function loadData(){
+				
+				layui.qyForm.qyajax("/f/app/userinfo/userinfo",{},function(data){
+					userName = data.user.userName;
+					mobile = data.user.mobile;
+					isShop = data.user.isShop;
+					contents = "userName="+userName+"&"+"mobile="+mobile+"&"+"money="+money+"&isShop="+isShop;
+					erWeiMa();
+					// $("#userName").html(data.user.userName);
+					// $("#trueName").html(data.user.trueName);
+					// $("#phoneNumber").html(data.user.mobile);
+					// $("#createDate").html(data.user.createDate);
+					// $("#userLevel").html(data.user.userLevel.levelName);
+				});
+			}
+
+			function erWeiMa(){
+				$("#code").html("");
+                $("#code").qrcode({
+                    render: "table", //table方式
+                    width: 200, //宽度
+                    height:200, //高度
+                    text: contents
+                });
+
+//				flag++;
+//				var  FNScanner = api.require('FNScanner');
+//
+//				FNScanner.encodeImg({
+//				    content: contents,
+//				    saveToAlbum: false,
+//				    saveImg: {
+//				        path: 'fs://album'+flag+'.png',
+//				        w: 200,
+//				        h: 200
+//				    }
+//				}, function(ret, err) {
+//				    if(ret){
+//				   	 	$("img").attr("src",ret.imgPath);
+//					}
+//				});
+			}
+
+	</script>
+</html>

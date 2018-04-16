@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.extra_user.dao.UserShopManageDao">
+    
+	<sql id="userShopManageColumns">
+		a.id AS "id",
+		a.user_name AS "userName",
+		a.shop_name AS "shopName",
+		a.storefront_img AS "storefrontImg",
+		a.storefront_img1 AS "storefrontImg1",
+		a.storefront_img2 AS "storefrontImg2",
+		a.business_lic_img AS "businessLicImg",
+		a.mobile AS "mobile",
+		a.classify_id AS "classifyId",
+		a.id_card AS "idCard",
+		a.id_card_img1 AS "idCardImg1",
+		a.id_card_img2 AS "idCardImg2",
+		a.id_card_img3 AS "idCardImg3",
+		a.shop_address AS "shopAddress",
+		a.shop_status AS "shopStatus",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		s.classifyName AS "classifyName",
+		a.address_x AS "addressX",
+		a.address_y AS "addressY",
+		u.true_name AS "trueName",
+		a.message AS "message"
+	</sql>
+
+	<sql id="userShopManageJoins">
+		LEFT JOIN shop_classify s ON a.classify_id = s.id
+		LEFT JOIN user_userinfo u ON a.user_name = u.user_name
+	</sql>
+
+	<select id="get" resultType="UserShopManage">
+		SELECT
+			<include refid="userShopManageColumns"/>
+		FROM user_shop_manage a
+		<include refid="userShopManageJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="getByUserName" resultType="UserShopManage">
+		SELECT
+		<include refid="userShopManageColumns"/>
+		FROM user_shop_manage a
+		<include refid="userShopManageJoins"/>
+		WHERE a.user_name = #{userName}
+	</select>
+	<select id="findList" resultType="UserShopManage">
+		SELECT
+
+			<include refid="userShopManageColumns"/>
+		FROM user_shop_manage a
+		<include refid="userShopManageJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="userName != null and userName != ''">
+				AND a.user_name = #{userName}
+			</if>
+			<if test="shopStatus != null and shopStatus != ''">
+				AND a.shop_status = #{shopStatus}
+			</if>
+			<if test="classifyId != null and classifyId != ''">
+				AND a.classify_id = #{classifyId}
+
+			</if>
+			<if test="shopName != null and shopName != ''">
+				AND a.shop_name = #{shopName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="UserShopManage">
+		SELECT
+			<include refid="userShopManageColumns"/>
+		FROM user_shop_manage a
+		<include refid="userShopManageJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO user_shop_manage(
+			id,
+			user_name,
+			shop_name,
+			storefront_img,
+			storefront_img1,
+			storefront_img2,
+			business_lic_img,
+			mobile,
+			id_card,
+			classify_id,
+			id_card_img1,
+			id_card_img2,
+			id_card_img3,
+			shop_address,
+			shop_status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			address_x,
+			address_y,
+			message
+		) VALUES (
+			#{id},
+			#{userName},
+			#{shopName},
+			#{storefrontImg},
+			#{storefrontImg1},
+			#{storefrontImg2},
+			#{businessLicImg},
+			#{mobile},
+			#{idCard},
+			#{classifyId},
+			#{idCardImg1},
+			#{idCardImg2},
+			#{idCardImg3},
+			#{shopAddress},
+			#{shopStatus},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{addressX},
+			#{addressY},
+			#{message}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE user_shop_manage SET
+			user_name = #{userName},
+			shop_name = #{shopName},
+			storefront_img = #{storefrontImg},
+			storefront_img1 = #{storefrontImg1},
+			storefront_img2 = #{storefrontImg2},
+			business_lic_img = #{businessLicImg},
+			mobile = #{mobile},
+			id_card = #{idCard},
+			classify_id = #{classifyId},
+			id_card_img1 = #{idCardImg1},
+			id_card_img2 = #{idCardImg2},
+			id_card_img3 = #{idCardImg3},
+			shop_address = #{shopAddress},
+			shop_status = #{shopStatus},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			address_x = #{addressX},
+			address_y = #{addressY},
+			message = #{message}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE user_shop_manage SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<update id="updateStatus">
+		UPDATE user_shop_manage SET
+		shop_status = #{shopStatus},
+		message = #{message}
+		WHERE id = #{id}
+	</update>
+</mapper>

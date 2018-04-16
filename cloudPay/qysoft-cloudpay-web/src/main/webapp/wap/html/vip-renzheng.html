@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>会员认证</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../../static/qyScript/web/layer/css/layer-mobile.css"/>
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav home">
+			<a class="aui-pull-left aui-btn back"  href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+			<div class="aui-title">我的商铺</div>
+		</header>
+		<div class="height-one"></div>
+		
+	</body>
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','layer'], initpage);
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				verify();
+			}
+
+			function verify(){
+				layui.qyForm.qyajax("/f/app/shopManage/getUserShopStatus",{},function(data){
+					//alert(data.shopStatus);
+					if(data.shopStatus == 1 ){
+                        window.location.href="my_shop.html";
+					}else if(data.shopStatus == 0){
+						tan();
+					}else{
+                        window.location.href="shangchuan-detail.html";
+//						layui.qyWin.frame("shangchuandetail","shangchuan-detail.html",'');
+					}
+				});
+			}
+			
+			function tan(){
+				layui.layer.open({
+	                anim: 'up',
+	                className: 'popuo-login-one',
+	                shadeClose: false,
+	                content: '<p style="color:#666;font-size:18px;margin-top:15px;text-align:center;">商铺还在审核中.请耐心等待...</p>'
+	            });
+	           setTimeout("javascript:history.go(-1)",2000);
+			}
+	</script>
+</html>

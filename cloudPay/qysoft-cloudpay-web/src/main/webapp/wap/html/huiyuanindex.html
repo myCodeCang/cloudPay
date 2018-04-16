@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+    <script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+    <script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+</head>
+
+<body>
+  
+</body>
+<script type="text/javascript">
+        //框架初始化
+        qySoftInit("../../static/qyScript/web/");
+    
+        //apicloud 准备完成
+//        apiready = function(){
+              layui.use(['qyWin' ], initpage);
+//        };
+
+        function initpage(){
+           
+           openMainWin();
+        }
+
+
+        function openMainWin(){
+                var mainMenu ={
+                  "menuGroup" : [
+                    {
+                        "name" :"首页",
+                        "label" : "aui-icon-home",
+                        "url" : "../index.html",
+                        "fixBar" : "false"
+                    },
+                     {
+                        "name" :"周边",
+                        "label" : "aui-icon-location",
+                        "url" : "../zhoubian.html",
+                        "fixBar" : "false"
+                    },                    
+                    {
+                        "name" :"财富",
+                        "label":"aui-icon-cart",
+                        "url" :"../yuebao.html",
+                        "fixBar" : "false"
+                    },
+                     {
+                        "name" :"我的",
+                        "label" : "aui-icon-my",
+                        "url" : "../my.html",
+                        "fixBar" : "false"
+                    }
+                  ],
+                  frameType:true
+               };
+
+                layui.qyWin.createMainWin("main",mainMenu);
+        }
+    
+        function GetQueryString(name)
+        {
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+
+       
+</script>
+
+</html>

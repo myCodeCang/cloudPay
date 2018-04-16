@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>公告详情</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/template/style.css"/>
+
+		<script type="text/javascript" src="../../static/qyScript/web/layer/layui.js"></script>
+		<script type="text/javascript" src="../../static/qyScript/web/qyconfig.js"></script>
+	</head>
+	<style>
+		.gonggao-img{padding:0.75rem;}
+	</style>
+	<body class="bg-fff">
+		<header class="aui-bar aui-bar-nav home" id="header">
+			<a class="aui-pull-left aui-btn back"   href="javascript:history.go(-1)">
+		        <span class="aui-iconfont aui-icon-left"></span>
+		    </a>
+		    <div class="aui-title" id="headTitle">公告详情</div>
+		</header>
+		<div class="hei-len"></div>
+		<div class="aui-card-list-content gonggao-hea">
+            <div class="aui-list aui-media-list">
+                <div class="aui-list-item aui-list-item-middle">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title" id="title"></div>
+                            </div>
+                            <div class="aui-list-item-text" id="addtime"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="aui-content gonggao-img" >
+        	<span id="temp-gonggaoList"></span>
+        </div>
+        <div class="blank_20"></div>
+	</body>
+
+		
+		   
+	
+		
+
+	<script type="text/javascript">
+			//框架初始化
+			qySoftInit("../../static/qyScript/web/");
+		
+			//apicloud 准备完成
+
+				  layui.use(['qyWin','qyForm','template'], initpage);
+
+
+			function initpage(){
+				var qyWin  = layui.qyWin;
+				
+				if(layui.qyForm.GetQueryString("headTitle")){
+					var headTitle = layui.qyForm.GetQueryString("headTitle");
+					$("#headTitle").html(headTitle);
+				}else{
+					$("#headTitle").html("公告详情");
+				}
+				var articleId = layui.qyForm.GetQueryString("aid");
+				var title = layui.qyForm.GetQueryString("title");
+				$("#title").append(title);
+				var date = layui.qyForm.GetQueryString("date");
+				$("#addtime").html(date);
+
+				loadData(articleId);
+
+			}
+
+			function loadData(articleId){
+				
+				layui.qyForm.qyajax("/f/webArticle/detail",{articleId:articleId},function(data){
+					
+						$("#temp-gonggaoList").html(data.article.content);
+
+				});
+			}
+	</script>
+</html>
